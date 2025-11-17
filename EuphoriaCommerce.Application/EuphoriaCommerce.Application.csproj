@@ -21,6 +21,9 @@
 
     <ItemGroup>
       <Folder Include="Caching\" />
+      <Folder Include="Features\UsersFeature\" />
+      <Folder Include="Features\UsersFeature\DTOs\" />
+      <Folder Include="Features\UsersFeature\Validations\" />
     </ItemGroup>
 
     <ItemGroup>
