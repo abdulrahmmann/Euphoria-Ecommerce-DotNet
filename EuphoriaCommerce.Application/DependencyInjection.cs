@@ -1,4 +1,9 @@
 ﻿using EuphoriaCommerce.Application.Caching;
+using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GeneratePrincipalJwtToken;
+using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateRefreshToken;
+using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
+using EuphoriaCommerce.Application.Features.UsersFeature.Validations;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,12 +16,15 @@ public static class DependencyInjection
         // Register Redis Cache
         services.AddScoped<IRedisCacheService, RedisCacheService>();
         
-        
         // Register JWT Services
-
+        services.AddScoped<IGenerateTokenService, GenerateTokenService>();
+        services.AddScoped<IGenerateRefreshTokenService, GenerateRefreshTokenService>();
+        services.AddScoped<IGeneratePrincipalFromJwtTokenService, GeneratePrincipalFromJwtTokenService>();
         
-        // Register FLUENT VALIDATION
-  
+        // Register Fluent Validation
+        // USER VALIDATOR
+        services.AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
+        services.AddValidatorsFromAssemblyContaining<LoginUserValidator>();
         
         // Register CQRS Functionality: Request + handler
 
