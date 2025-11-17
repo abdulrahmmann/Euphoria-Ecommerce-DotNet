@@ -11,7 +11,7 @@ public class ApplicationUser: IdentityUser
     /// Represent the user account status : active or disabled
     /// If <see langword="false"/>, the user cannot log in.
     /// </summary>
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     
     /// <summary>
     /// Represent the role assigned to the user.
@@ -30,10 +30,11 @@ public class ApplicationUser: IdentityUser
     public UserProfile UserProfile { get; private set; } = null!;
     
     #region Refresh Token fields
+
     /// <summary>
     /// Represent the refresh token assigned to the user.
     /// </summary>
-    public string? RefreshToken { get; set; }
+    public string? RefreshToken { get; set; } 
     
     /// <summary>
     /// Represent the expiration date and time of the refresh token.
