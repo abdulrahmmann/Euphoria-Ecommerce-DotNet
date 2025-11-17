@@ -1,12 +1,18 @@
+using System.Security.Claims;
+using System.Text;
 using Asp.Versioning;
 using Euphoria_ecommerce.Middlewares;
 using EuphoriaCommerce.Application;
 using EuphoriaCommerce.Application.Extensions;
+using EuphoriaCommerce.Application.Features.UsersFeature.Models;
 using EuphoriaCommerce.Domain;
 using EuphoriaCommerce.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +35,45 @@ builder.Services.AddOpenApi();
 // REGISTER AUTHENTICATION & AUTHORIZATIONS
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+
+// ADDING AUTHENTICATION
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidAudience = jwtSettings!.Audience,
+        ValidIssuer = jwtSettings!.Issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+
+        RoleClaimType = ClaimTypes.Role,
+        
+        ValidateLifetime = true,
+    };
+});
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+
+    options.SignIn.RequireConfirmedEmail = true;
+});
+
+
 
 // REGISTER LAYERS DEPENDENCIES
 builder.Services
