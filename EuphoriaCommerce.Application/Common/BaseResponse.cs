@@ -16,10 +16,10 @@ public class BaseResponse<T>
     public HttpStatusCode  HttpStatusCode  { get; set; }
     
     [JsonPropertyOrder(3)]
-    public string Message { get; set; }
+    public string? Message { get; set; }
     
     [JsonPropertyOrder(4)]
-    public string Errors { get; set; }
+    public string? Errors { get; set; }
     
     [JsonPropertyOrder(5)]
     public DateTime Timestamp { get; set; }

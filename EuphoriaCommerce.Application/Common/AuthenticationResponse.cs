@@ -11,7 +11,7 @@ public class AuthenticationResponse
     public DateTime Timestamp { get; set; }
 
     [JsonPropertyOrder(3)]
-    public string Message { get; set; } = string.Empty;
+    public string? Message { get; set; } = string.Empty;
 
     [JsonPropertyOrder(4)]
     public List<string>? Errors { get; set; }
