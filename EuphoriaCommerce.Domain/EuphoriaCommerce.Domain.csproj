@@ -9,8 +9,8 @@
     <ItemGroup>
       <Folder Include="CQRS\" />
       <Folder Include="Entities\" />
-      <Folder Include="IdentityEntities\" />
       <Folder Include="IRepository\" />
+      <Folder Include="ValueObjects\" />
     </ItemGroup>
 
     <ItemGroup>

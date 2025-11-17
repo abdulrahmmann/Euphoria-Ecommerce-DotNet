@@ -20,13 +20,13 @@ public class GeneratePrincipalFromJwtTokenService(IConfiguration configuration):
             ValidateIssuerSigningKey = true,
             ValidateLifetime = false,
             
-            ValidAudience = configuration["Jwt:Audience"],
-            ValidIssuer = configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SECRET_KEY"]!)),
+            ValidAudience = jwtSettings.Audience,
+            ValidIssuer = jwtSettings.Issuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         
-        var principal = tokenHandler.ValidateToken(token, tokenValidation, out SecurityToken securityToken);
+        var principal = tokenHandler.ValidateToken(token, tokenValidation, out var securityToken);
 
         if (securityToken is not JwtSecurityToken jwtSecurityToken ||
             !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,

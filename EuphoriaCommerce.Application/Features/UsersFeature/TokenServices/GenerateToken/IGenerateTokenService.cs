@@ -1,4 +1,5 @@
 ﻿using EuphoriaCommerce.Application.Common;
+using EuphoriaCommerce.Domain.IdentityEntities;
 
 namespace EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
 

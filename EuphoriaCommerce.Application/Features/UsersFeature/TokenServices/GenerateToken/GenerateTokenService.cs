@@ -4,6 +4,7 @@ using System.Text;
 using EuphoriaCommerce.Application.Common;
 using EuphoriaCommerce.Application.Features.UsersFeature.Models;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateRefreshToken;
+using EuphoriaCommerce.Domain.IdentityEntities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,9 +13,9 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 namespace EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
 
 public class GenerateTokenService(
-    IGenerateRefreshTokenService _refreshTokenService, 
-    UserManager<ApplicationUser> _userManager, 
-    IConfiguration  _configuration
+    IGenerateRefreshTokenService refreshTokenService, 
+    UserManager<ApplicationUser> userManager, 
+    IConfiguration  configuration
     ) : IGenerateTokenService
 {
 
@@ -22,13 +23,13 @@ public class GenerateTokenService(
     public AuthenticationResponse GenerateToken(ApplicationUser user)
     {
         // Jwt Info from app-settings.json file
-        var jwtSettings = _configuration.GetSection("Jwt").Get<JwtSettings>()!;
+        var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>()!;
         
         // Token Expiration Minutes.
         var expirationToken = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings.ExpirationMinutes));
         
         // Get user role.
-        var userRole = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
+        var userRole = userManager.GetRolesAsync(user).Result.FirstOrDefault();
         
         // Get Secret Key.
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
@@ -42,8 +43,9 @@ public class GenerateTokenService(
             new (JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new (JwtRegisteredClaimNames.Email, user.Email!),
-            new (JwtRegisteredClaimNames.Name, user.FullName),
             new (JwtRegisteredClaimNames.UniqueName, user.UserName!),
+            new (JwtRegisteredClaimNames.Gender, user.Gender),
+            new (JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber!),
             new (ClaimTypes.Role, userRole ?? "User")
         };
         
@@ -67,8 +69,8 @@ public class GenerateTokenService(
             username: user.UserName!,
             email: user.Email!,
             token: token,
-            refreshToken: _refreshTokenService.GenerateRefreshToken(),
-            refreshTokenExpiration: DateTime.Now.AddMinutes(Convert.ToInt64(_configuration["RefreshToken:EXPIRATION_MINUTES"])),
+            refreshToken: refreshTokenService.GenerateRefreshToken(),
+            refreshTokenExpiration: DateTime.Now.AddMinutes(Convert.ToInt64(configuration["RefreshToken:ExpirationMinutes"])),
             expiration: expirationToken,
             message: "Token Generated Successfully"
             );

@@ -17,7 +17,7 @@ public class AuthenticationResponse
     public List<string>? Errors { get; set; }
 
     [JsonPropertyOrder(5)]
-    public int? UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
     
     [JsonPropertyOrder(6)]
     public string? Username { get; set; }
@@ -55,7 +55,7 @@ public class AuthenticationResponse
         };
     }
     
-    public static AuthenticationResponse Success(int userId, string username, string email, string token, string refreshToken, 
+    public static AuthenticationResponse Success(string userId, string username, string email, string token, string refreshToken, 
         DateTime refreshTokenExpiration, DateTime expiration, string message = "Operation successful")
     {
         return new AuthenticationResponse
