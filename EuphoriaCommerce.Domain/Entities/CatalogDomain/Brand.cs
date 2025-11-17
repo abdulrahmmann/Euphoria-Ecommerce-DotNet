@@ -2,21 +2,65 @@
 
 namespace EuphoriaCommerce.Domain.Entities.CatalogDomain;
 
-/// <summary> Represents a product brand. </summary>
+/// <summary>
+/// Represents a product brand.
+/// <example>Zara, </example> <example>HM, </example> <example>Adidas</example>
+/// </summary>
 public class Brand: Entity<Guid>
 {
+    /// <summary>The Brand Name.</summary>
     public string Name { get; private set; } = null!;
-    public string? LogoUrl { get; private set; }
+    
+    /// <summary>The Brand Logo.</summary>
+    public string LogoUrl { get; private set; } = null!;
     
     private Brand() { }
 
-    public Brand(string name, string logoUrl)
+    #region Constructor | Create
+    /// <summary>Constructor | Create a Brand and mark as Created.</summary>
+    /// <param name="name">Brand Name.</param>
+    /// <param name="logoUrl">Brand Logo.</param>
+    /// <param name="createdBy">Admin Who create the brand.</param>
+    public Brand(string name, string logoUrl, string? createdBy = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrEmpty(logoUrl);
         
         Id = Guid.NewGuid();
-        
         Name = name;
         LogoUrl = logoUrl;
+        
+        MarkCreated(createdBy);
     }
+    #endregion
+
+    #region Helper Methods : Update, Delete, Restore
+    /// <summary> Update a Brand and mark as Modified. </summary>
+    /// <param name="name"> Brand Name. </param>
+    /// <param name="logoUrl"> Brand Logo. </param>
+    /// <param name="modifiedBy">Admin Who modify the brand.</param>
+    public void Update(string name, string logoUrl, string? modifiedBy = null)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrEmpty(logoUrl);
+
+        Name = name;
+        LogoUrl = logoUrl;
+
+        MarkModified(modifiedBy);
+    }
+    
+    /// <summary> Softly Delete a Brand and mark as Deleted.</summary>/ 
+    /// <param name="deletedBy">Admin Who delete the brand.</param>
+    public void Delete(string? deletedBy = null)
+    {
+        MarkDeleted(deletedBy); 
+    }
+    /// <summary> Restore Softly Deleted Brand and mark as Restored.</summary>/ 
+    /// <param name="restoredBy">the admin who restore the brand.</param>
+    public void Restore(string? restoredBy = null)
+    {
+        MarkRestored(restoredBy);
+    }
+    #endregion
 }

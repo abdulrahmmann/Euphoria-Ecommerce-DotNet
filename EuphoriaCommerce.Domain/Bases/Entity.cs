@@ -73,6 +73,9 @@ public abstract class Entity<T>: IEntity<T>
             IsDeleted = true;
             DeletedAt = DateTime.UtcNow;
             DeletedBy = deletedBy;
+            
+            RestoredAt = null;
+            RestoredBy = null;
         }
     }
     
@@ -87,6 +90,7 @@ public abstract class Entity<T>: IEntity<T>
             IsDeleted = false;
             RestoredAt = DateTime.UtcNow;
             RestoredBy = restoredBy;
+            
             DeletedAt = null;
             DeletedBy = null;
         }
