@@ -7,7 +7,7 @@ namespace EuphoriaCommerce.Infrastructure.Configurations;
 /// <summary>
 /// Base configuration for all entities inheriting from Entity
 /// </summary>
-public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : Entity<string>
+public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : Entity<Guid>
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
