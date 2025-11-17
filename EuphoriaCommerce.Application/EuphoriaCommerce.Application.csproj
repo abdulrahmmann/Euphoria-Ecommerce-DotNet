@@ -22,5 +22,10 @@
     <ItemGroup>
       <Folder Include="Caching\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EuphoriaCommerce.Domain\EuphoriaCommerce.Domain.csproj" />
+      <ProjectReference Include="..\EuphoriaCommerce.Infrastructure\EuphoriaCommerce.Infrastructure.csproj" />
+    </ItemGroup>
     
 </Project>

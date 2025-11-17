@@ -30,4 +30,8 @@
       <Folder Include="UOF\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\EuphoriaCommerce.Domain\EuphoriaCommerce.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
