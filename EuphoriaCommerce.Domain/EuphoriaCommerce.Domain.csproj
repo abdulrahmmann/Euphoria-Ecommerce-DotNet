@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="CQRS\" />
       <Folder Include="Entities\InventoryDomain\" />
-      <Folder Include="Entities\OrderDomain\" />
       <Folder Include="IRepository\" />
     </ItemGroup>
 
