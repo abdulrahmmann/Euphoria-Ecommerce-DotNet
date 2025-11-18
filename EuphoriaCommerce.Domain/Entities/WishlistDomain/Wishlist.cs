@@ -10,7 +10,7 @@ namespace EuphoriaCommerce.Domain.Entities.WishlistDomain;
 public class Wishlist : Entity<Guid>
 {
     /// <summary>User ID Foreign key this wishlist belongs to.</summary>
-    public Guid UserId { get; private set; }
+    public string UserId { get; private set; }
     
     /// <summary>Navigation to User.</summary>
     public ApplicationUser? ApplicationUser { get; private set; }
@@ -32,9 +32,9 @@ public class Wishlist : Entity<Guid>
     /// <param name="userId">User who added the product.</param>
     /// <param name="productId">Product added to wishlist.</param>
     /// <param name="createdBy">Admin Who Create Wishlist.</param>
-    public Wishlist(Guid userId, Guid productId, string? createdBy = null)
+    public Wishlist(string userId, Guid productId, string? createdBy = null)
     {
-        ArgumentOutOfRangeException.ThrowIfEqual(userId, Guid.Empty);
+        ArgumentOutOfRangeException.ThrowIfEqual(userId, string.Empty);
         ArgumentOutOfRangeException.ThrowIfEqual(productId, Guid.Empty);
 
         Id = Guid.NewGuid();

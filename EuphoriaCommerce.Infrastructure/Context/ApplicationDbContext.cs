@@ -39,6 +39,9 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, Applicatio
         base.OnModelCreating(builder);
 
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        builder.Entity<Cart>().OwnsMany(c => c.CartItems);
+        builder.Entity<Order>().OwnsMany(o => o.OrderItems);
         
         builder.Entity<ApplicationUser>().HasQueryFilter(u => !u.IsActive);
         builder.Entity<Product>().HasQueryFilter(u => !u.IsDeleted);
