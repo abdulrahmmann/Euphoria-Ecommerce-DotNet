@@ -18,4 +18,18 @@ public class CartItem
         Price = price;
         Quantity = quantity;
     }
+    public void IncreaseQuantity(int value)
+    {
+        if (value <= 0) throw new ArgumentException("Increase must be > 0");
+        
+        Quantity += value;
+    }
+
+    public void SetQuantity(int quantity)
+    {
+        if (quantity < 0)
+            throw new ArgumentException("Quantity Invalid");
+
+        Quantity = quantity;
+    }
 }
