@@ -1,8 +1,12 @@
 ﻿using EuphoriaCommerce.Application.Caching;
+using EuphoriaCommerce.Application.Common;
+using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Login;
+using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GeneratePrincipalJwtToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateRefreshToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.Validations;
+using EuphoriaCommerce.Domain.CQRS;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +31,10 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<LoginUserValidator>();
         
         // Register CQRS Functionality: Request + handler
-
+        
+        // Users
+        services.AddTransient<ICommandHandler<RegisterUserCommand, AuthenticationResponse>, RegisterUserCommandHandler>();
+        services.AddTransient<ICommandHandler<LoginUserCommand, AuthenticationResponse>, LoginUserCommandHandler>();
         
         return services;
     }
