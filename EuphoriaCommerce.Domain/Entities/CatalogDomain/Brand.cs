@@ -1,4 +1,5 @@
 ﻿using EuphoriaCommerce.Domain.Bases;
+using EuphoriaCommerce.Domain.Entities.ProductDomain;
 
 namespace EuphoriaCommerce.Domain.Entities.CatalogDomain;
 
@@ -13,6 +14,8 @@ public class Brand: Entity<Guid>
     
     /// <summary>The Brand Logo.</summary>
     public string LogoUrl { get; private set; } = null!;
+
+    public List<Product> Products = new List<Product>();
     
     private Brand() { }
 

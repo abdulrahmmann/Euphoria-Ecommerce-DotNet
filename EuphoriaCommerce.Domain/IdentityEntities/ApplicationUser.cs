@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EuphoriaCommerce.Domain.Entities.WishlistDomain;
+using Microsoft.AspNetCore.Identity;
 
 namespace EuphoriaCommerce.Domain.IdentityEntities;
 
@@ -28,6 +29,8 @@ public class ApplicationUser: IdentityUser
 
     /// <summary> Navigation property that references the user's extended profile information. </summary>
     public UserProfile UserProfile { get; private set; } = null!;
+
+    public List<Wishlist> Wishlists = new List<Wishlist>();
     
     #region Refresh Token fields
 

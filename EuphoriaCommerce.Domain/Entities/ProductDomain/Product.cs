@@ -87,6 +87,7 @@ public class Product : Entity<Guid>
     }
 
     #endregion
+    
     #region Helper Methods : Update, Delete, Restore
     /// <summary>Update product basic information.</summary>
     public void Update( string name, string description, decimal price, string? modifiedBy = null)
