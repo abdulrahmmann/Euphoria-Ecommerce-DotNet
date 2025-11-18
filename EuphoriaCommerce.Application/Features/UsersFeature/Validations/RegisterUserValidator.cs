@@ -30,7 +30,10 @@ public class RegisterUserValidator: AbstractValidator<RegisterUserDto>
             .MaximumLength(100).WithMessage("Confirm Password cannot exceed 100 characters.")
             .NotEmpty().WithMessage("Confirm Password must not be empty.")
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$")
-            .WithMessage("Confirm Password must contain uppercase, lowercase, number, and special character.")
-            .Equal(temp => temp.Password).WithMessage("Password and Confirm Password does not matched."); 
+            .WithMessage("Confirm Password must contain uppercase, lowercase, number, and special character."); 
+        
+        RuleFor(temp => temp)
+            .Must(temp => temp.Password == temp.ConfirmPassword)
+            .WithMessage("Password and Confirm Password does not matched.");
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace EuphoriaCommerce.Application.Features.UsersFeature.Constants;
+﻿namespace EuphoriaCommerce.Application.Features.UsersFeature.Models;
 
 public static class Roles
 {
