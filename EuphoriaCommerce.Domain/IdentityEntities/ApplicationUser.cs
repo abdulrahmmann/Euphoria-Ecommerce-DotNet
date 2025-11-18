@@ -12,7 +12,7 @@ public class ApplicationUser: IdentityUser
     /// Represent the user account status : active or disabled
     /// If <see langword="false"/>, the user cannot log in.
     /// </summary>
-    public bool IsActive { get; set; } = true;
+    public bool IsActive { get; private set; } = true;
     
     /// <summary>
     /// Represent the role assigned to the user.
@@ -22,7 +22,7 @@ public class ApplicationUser: IdentityUser
     /// <item>User</item>
     /// </list>
     /// </summary>
-    public string Role { get; set; } = string.Empty;
+    public string Role { get; private set; } = string.Empty;
     
     /// <summary> The user's gender. Allowed values: "Male" or "Female"; we are not supporting gays people. </summary>
     public string Gender { get; private set; } = null!;
@@ -33,7 +33,6 @@ public class ApplicationUser: IdentityUser
     public List<Wishlist> Wishlists = new List<Wishlist>();
     
     #region Refresh Token fields
-
     /// <summary>
     /// Represent the refresh token assigned to the user.
     /// </summary>
