@@ -4,6 +4,7 @@ using EuphoriaCommerce.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EuphoriaCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251119123942_move-genderto-profile")]
+    partial class movegendertoprofile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1255,22 +1258,27 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(450)");
 
                             b1.Property<string>("Bio")
+                                .IsRequired()
                                 .HasMaxLength(1000)
                                 .HasColumnType("nvarchar(1000)");
 
                             b1.Property<string>("City")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
                             b1.Property<string>("Country")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
                             b1.Property<string>("FirstName")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
                             b1.Property<string>("FullName")
+                                .IsRequired()
                                 .HasMaxLength(120)
                                 .HasColumnType("nvarchar(120)");
 
@@ -1279,17 +1287,21 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("LastName")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("nvarchar(60)");
 
                             b1.Property<string>("ProfileImageUrl")
+                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("SecondName")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
                             b1.Property<string>("Street")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
@@ -1297,6 +1309,7 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("ZipCode")
+                                .IsRequired()
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
@@ -1310,7 +1323,8 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                             b1.Navigation("ApplicationUser");
                         });
 
-                    b.Navigation("UserProfile");
+                    b.Navigation("UserProfile")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

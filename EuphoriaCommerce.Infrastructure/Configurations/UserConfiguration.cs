@@ -16,16 +16,16 @@ public class UserConfiguration: IEntityTypeConfiguration<ApplicationUser>
         
         builder.OwnsOne(temp => temp.UserProfile, profile =>
         {
-            profile.Property(x => x.FirstName).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.SecondName).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.LastName).IsRequired().HasMaxLength(60);
-            profile.Property(x => x.FullName).IsRequired().HasMaxLength(120);
-            profile.Property(x => x.Bio).IsRequired().HasMaxLength(1000);
-            profile.Property(x => x.Country).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.City).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.Street).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.ZipCode).IsRequired().HasMaxLength(30);
-            profile.Property(x => x.ProfileImageUrl).IsRequired();
+            profile.Property(x => x.FirstName).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.SecondName).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.LastName).IsRequired(false).HasMaxLength(60);
+            profile.Property(x => x.FullName).IsRequired(false).HasMaxLength(120);
+            profile.Property(x => x.Bio).IsRequired(false).HasMaxLength(1000);
+            profile.Property(x => x.Country).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.City).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.Street).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.ZipCode).IsRequired(false).HasMaxLength(30);
+            profile.Property(x => x.ProfileImageUrl).IsRequired(false);
         });
     }
 }

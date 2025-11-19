@@ -57,6 +57,7 @@ public class RegisterUserCommandHandler(
             
             if (!roleResult.Succeeded)
             {
+                await userManager.DeleteAsync(newUser);
                 var roleErrors = roleResult.Errors.Select(e => e.Description).ToList();
                 return AuthenticationResponse.Failure("User registration failed.",roleErrors, HttpStatusCode.BadRequest);
             }

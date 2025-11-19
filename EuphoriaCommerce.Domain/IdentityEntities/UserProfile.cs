@@ -26,6 +26,9 @@ public class UserProfile
     /// <summary> A short biography or personal description written by the user. </summary>
     [StringLength(1000, ErrorMessage = "Bio cannot exceed 1000 characters.")]
     public string Bio { get; private set; } = null!;
+    
+    /// <summary> The user's gender. Allowed values: "Male" or "Female"; we are not supporting gays people. </summary>
+    public string Gender { get; private set; } = null!;
 
     /// <summary> The user's address information as a value object. </summary>
     // public Address Address { get; private set; } = null!;
@@ -47,13 +50,14 @@ public class UserProfile
     private UserProfile() { }
 
     public UserProfile(string firstName, string? secondName, string lastName, string? profileImageUrl, 
-        string bio, string country, string city, string street, string zipCode, int userId)
+        string bio, string gender, string country, string city, string street, string zipCode, int userId)
     {
         ArgumentException.ThrowIfNullOrEmpty(firstName);
         ArgumentException.ThrowIfNullOrEmpty(secondName);
         ArgumentException.ThrowIfNullOrEmpty(lastName);
         ArgumentException.ThrowIfNullOrEmpty(profileImageUrl);
         ArgumentException.ThrowIfNullOrEmpty(bio);
+        ArgumentException.ThrowIfNullOrEmpty(gender);
         ArgumentException.ThrowIfNullOrEmpty(country);
         ArgumentException.ThrowIfNullOrEmpty(city);
         ArgumentException.ThrowIfNullOrEmpty(street);
@@ -66,6 +70,7 @@ public class UserProfile
         LastName = lastName;
         ProfileImageUrl = profileImageUrl;
         Bio = bio;
+        Gender = gender;
         Country =  country;
         City = city;
         Street = street;

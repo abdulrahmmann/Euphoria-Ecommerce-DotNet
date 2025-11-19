@@ -3,7 +3,6 @@ using System.Text;
 using Asp.Versioning;
 using Euphoria_ecommerce.Middlewares;
 using EuphoriaCommerce.Application;
-using EuphoriaCommerce.Application.Extensions;
 using EuphoriaCommerce.Application.Features.UsersFeature.Models;
 using EuphoriaCommerce.Domain;
 using EuphoriaCommerce.Infrastructure;
@@ -14,10 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -70,6 +68,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.AllowedForNewUsers = true;
 
+    options.SignIn.RequireConfirmedAccount = true;
     options.SignIn.RequireConfirmedEmail = true;
 });
 
@@ -82,7 +81,9 @@ builder.Services
     .AddApplicationDependencies(builder.Configuration);
 
 // Serilog
-builder.Host.SerilogConfiguration();
+// builder.Host.SerilogConfiguration();
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 // REGISTER API VERSIONING
 builder.Services.AddApiVersioning(config =>
@@ -104,9 +105,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policyBuilder =>
     {
         policyBuilder
+            .WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            .AllowAnyHeader();
     });
 });
 
@@ -123,6 +124,8 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandlingMiddleware();
 
 app.UseHttpsRedirection();
+
+app.UseSerilogRequestLogging();
 
 app.UseRouting();
 

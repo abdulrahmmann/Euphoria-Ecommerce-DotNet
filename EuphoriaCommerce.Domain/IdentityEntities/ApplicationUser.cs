@@ -23,12 +23,9 @@ public class ApplicationUser: IdentityUser
     /// </list>
     /// </summary>
     public string Role { get; private set; } = string.Empty;
-    
-    /// <summary> The user's gender. Allowed values: "Male" or "Female"; we are not supporting gays people. </summary>
-    public string Gender { get; private set; } = null!;
 
     /// <summary> Navigation property that references the user's extended profile information. </summary>
-    public UserProfile UserProfile { get; private set; } = null!;
+    public UserProfile? UserProfile { get; private set; } = null!;
 
     public List<Wishlist> Wishlists = new List<Wishlist>();
     
