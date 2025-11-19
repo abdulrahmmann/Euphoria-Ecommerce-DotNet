@@ -50,7 +50,7 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
         
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-        builder.Entity<ApplicationUser>().HasQueryFilter(u => !u.IsActive);
+        builder.Entity<ApplicationUser>().HasQueryFilter(u => u.IsActive);
         builder.Entity<Product>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<ProductVariant>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<ProductTag>().HasQueryFilter(u => !u.IsDeleted);

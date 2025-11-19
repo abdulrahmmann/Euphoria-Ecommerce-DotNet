@@ -73,8 +73,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.AllowedForNewUsers = true;
 
-    options.SignIn.RequireConfirmedAccount = true;
-    options.SignIn.RequireConfirmedEmail = true;
+    // options.SignIn.RequireConfirmedAccount = true;
+    // options.SignIn.RequireConfirmedEmail = true;
 });
 
 // REGISTER LAYERS DEPENDENCIES
