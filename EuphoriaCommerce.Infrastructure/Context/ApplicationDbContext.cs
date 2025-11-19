@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EuphoriaCommerce.Infrastructure.Context;
 
-public class ApplicationDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, string>
+public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
     public ApplicationDbContext(DbContextOptions options) : base(options) { }
     protected ApplicationDbContext() { }
@@ -38,6 +38,14 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, Applicatio
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<CartItem>()
+            .Property(c => c.Price)
+            .HasPrecision(18,2);
+
+        builder.Entity<OrderItem>()
+            .Property(o => o.Price)
+            .HasPrecision(18,2);
+            
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         builder.Entity<Cart>().OwnsMany(c => c.CartItems);

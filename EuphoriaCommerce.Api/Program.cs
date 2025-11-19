@@ -2,7 +2,9 @@ using System.Security.Claims;
 using System.Text;
 using Asp.Versioning;
 using Euphoria_ecommerce.Middlewares;
+using Euphoria_ecommerce.SeedData;
 using EuphoriaCommerce.Application;
+using EuphoriaCommerce.Application.Extensions;
 using EuphoriaCommerce.Application.Features.UsersFeature.Models;
 using EuphoriaCommerce.Domain;
 using EuphoriaCommerce.Infrastructure;
@@ -23,12 +25,15 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(new ProducesAttribute("application/json"));
     options.Filters.Add(new ConsumesAttribute("application/json"));
 
-    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    options.Filters.Add(new AuthorizeFilter(policy));
+    // var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    // options.Filters.Add(new AuthorizeFilter(policy));
 }).AddXmlSerializerFormatters();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Serilog
+builder.Host.SerilogConfiguration();
 
 // REGISTER AUTHENTICATION & AUTHORIZATIONS
 builder.Services.AddAuthentication();
@@ -72,18 +77,12 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedEmail = true;
 });
 
-
-
 // REGISTER LAYERS DEPENDENCIES
 builder.Services
     .AddDomainDependencies(builder.Configuration)
     .AddInfrastructureDependencies(builder.Configuration)
     .AddApplicationDependencies(builder.Configuration);
 
-// Serilog
-// builder.Host.SerilogConfiguration();
-builder.Host.UseSerilog((context, configuration) =>
-    configuration.ReadFrom.Configuration(context.Configuration));
 
 // REGISTER API VERSIONING
 builder.Services.AddApiVersioning(config =>
@@ -111,12 +110,26 @@ builder.Services.AddCors(options =>
     });
 });
 
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await DbSeedData.SeedRolesAsync(roleManager);
+}
+
+
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
+    // app.UseSwagger();
+    // app.UseSwaggerUI();
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
@@ -124,8 +137,6 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandlingMiddleware();
 
 app.UseHttpsRedirection();
-
-app.UseSerilogRequestLogging();
 
 app.UseRouting();
 

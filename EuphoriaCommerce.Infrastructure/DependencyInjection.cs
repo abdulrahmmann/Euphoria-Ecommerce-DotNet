@@ -19,8 +19,7 @@ public static class DependencyInjection
         });
         
         // REGISTER IDENTITY
-        // REGISTER IDENTITY
-        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
@@ -36,9 +35,9 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
 
-            .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, string>>()
+            .AddUserStore<UserStore<ApplicationUser, IdentityRole, ApplicationDbContext, string>>()
 
-            .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, string>>();
+            .AddRoleStore<RoleStore<IdentityRole, ApplicationDbContext, string>>();
         
         
         // REGISTER UNIT OF WORK

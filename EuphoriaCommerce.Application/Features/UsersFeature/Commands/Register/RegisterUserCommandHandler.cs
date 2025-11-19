@@ -7,13 +7,15 @@ using EuphoriaCommerce.Domain.CQRS;
 using EuphoriaCommerce.Domain.IdentityEntities;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
 
 namespace EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
 
 public class RegisterUserCommandHandler(
     UserManager<ApplicationUser> userManager, 
     IGenerateTokenService tokenService,
-    IValidator<RegisterUserDto> validator
+    IValidator<RegisterUserDto> validator,
+    ILogger logger
     ) : ICommandHandler<RegisterUserCommand, AuthenticationResponse>
 {
     public async Task<AuthenticationResponse> HandleAsync(RegisterUserCommand command, CancellationToken cancellationToken = default)
@@ -73,7 +75,8 @@ public class RegisterUserCommandHandler(
         }
         catch (Exception e)
         {
-            return AuthenticationResponse.Failure("Unexpected server error. Please try again later."); 
+            logger.Error("{e}", e.Message);
+            return AuthenticationResponse.Failure($"Unexpected server error. Please try again later : {e.Message}."); 
         }
     }
 }
