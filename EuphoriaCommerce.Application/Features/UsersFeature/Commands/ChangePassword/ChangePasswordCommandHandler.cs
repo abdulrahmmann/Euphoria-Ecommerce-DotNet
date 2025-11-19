@@ -38,7 +38,7 @@ public class ChangePasswordCommandHandler(UserManager<ApplicationUser> userManag
         catch (Exception e)
         {
             return AuthenticationResponse
-                .Failure("Unexpected server error. Please try again later.", statusCode:HttpStatusCode.InternalServerError); 
+                .Failure($"Unexpected server error. Please try again later: {e.Message}", statusCode:HttpStatusCode.InternalServerError); 
         }
     }
 }

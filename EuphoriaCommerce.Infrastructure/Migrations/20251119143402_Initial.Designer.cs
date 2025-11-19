@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EuphoriaCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251119135944_Initial")]
+    [Migration("20251119143402_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

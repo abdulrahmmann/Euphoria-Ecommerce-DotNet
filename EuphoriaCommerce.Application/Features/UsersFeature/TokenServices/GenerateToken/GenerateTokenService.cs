@@ -44,8 +44,6 @@ public class GenerateTokenService(
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new (JwtRegisteredClaimNames.Email, user.Email!),
             new (JwtRegisteredClaimNames.UniqueName, user.UserName!),
-            new (JwtRegisteredClaimNames.Gender, user.UserProfile.Gender),
-            new (JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber!),
             new (ClaimTypes.Role, userRole ?? "User")
         };
         

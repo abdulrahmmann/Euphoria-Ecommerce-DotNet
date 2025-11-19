@@ -8,11 +8,13 @@ using EuphoriaCommerce.Domain.IdentityEntities;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
+using StackExchange.Redis;
 
 namespace EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
 
 public class RegisterUserCommandHandler(
     UserManager<ApplicationUser> userManager, 
+    RoleManager<IdentityRole> roleManager,
     IGenerateTokenService tokenService,
     IValidator<RegisterUserDto> validator,
     ILogger logger
@@ -24,59 +26,62 @@ public class RegisterUserCommandHandler(
         
         try
         {
-            // validate request DTO.
+            // 1️⃣ Validate DTO
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            
             if (!validationResult.IsValid)
             {
                 var validationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return AuthenticationResponse.Failure("Validation failed.", validationErrors, HttpStatusCode.UnprocessableEntity);
             }
-            
-            // check existing user.
-            var existingByEmail = await userManager.FindByEmailAsync(request.Email);
-            if (existingByEmail is not null)
+
+            // 2️⃣ Check if user exists
+            if (await userManager.FindByEmailAsync(request.Email) is not null)
                 return AuthenticationResponse.Failure("Email is already registered.", statusCode: HttpStatusCode.Conflict);
 
-            var existingByUserName = await userManager.FindByNameAsync(request.Username);
-            if (existingByUserName is not null)
+            if (await userManager.FindByNameAsync(request.Username) is not null)
                 return AuthenticationResponse.Failure("Username is already taken.", statusCode: HttpStatusCode.Conflict);
 
-          
-            // create new user
+            // 3️⃣ Create new user
             var newUser = ApplicationUser.Create(request.Email, request.Username);
-            
             var identityResult = await userManager.CreateAsync(newUser, request.Password);
-            
+
             if (!identityResult.Succeeded)
             {
                 var createErrors = identityResult.Errors.Select(e => e.Description).ToList();
                 return AuthenticationResponse.Failure("User registration failed.", createErrors, HttpStatusCode.BadRequest);
             }
-            
-            // Assign role
+
+            logger.Information("User {Username} created successfully.", newUser.UserName);
+
+            // 4️⃣ Ensure role exists
+            if (!await roleManager.RoleExistsAsync(Roles.User))
+            {
+                logger.Information("Role {Role} does not exist. Creating it.", Roles.User);
+                await roleManager.CreateAsync(new IdentityRole(Roles.User));
+            }
+
+            // 5️⃣ Assign role
             var roleResult = await userManager.AddToRoleAsync(newUser, Roles.User);
-            
             if (!roleResult.Succeeded)
             {
-                await userManager.DeleteAsync(newUser);
-                var roleErrors = roleResult.Errors.Select(e => e.Description).ToList();
-                return AuthenticationResponse.Failure("User registration failed.",roleErrors, HttpStatusCode.BadRequest);
+                logger.Warning("Failed to assign role {Role} to user {Username}", Roles.User, newUser.UserName);
             }
-            
-            // Generate token
+
+            newUser.SetRole(Roles.User);
+
+            // 6️⃣ Generate token
             var tokenResponse = tokenService.GenerateToken(newUser);
             newUser.SetRefreshToken(tokenResponse.RefreshToken);
             newUser.SetRefreshTokenExpiration(tokenResponse.RefreshTokenExpiration);
-            
+
             await userManager.UpdateAsync(newUser);
-            
-            return tokenResponse; 
+
+            return tokenResponse;
         }
         catch (Exception e)
         {
-            logger.Error("{e}", e.Message);
-            return AuthenticationResponse.Failure($"Unexpected server error. Please try again later : {e.Message}."); 
+            logger.Error(e, "Error registering user {Username}", request.Username);
+            return AuthenticationResponse.Failure($"Unexpected server error. Please try again later: {e.Message}");
         }
     }
 }

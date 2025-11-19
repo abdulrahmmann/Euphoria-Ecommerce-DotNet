@@ -24,6 +24,11 @@ public class ApplicationUser: IdentityUser
     /// </summary>
     public string Role { get; private set; } = string.Empty;
 
+    public void SetRole(string role)
+    {
+        Role = role;
+    }
+
     /// <summary> Navigation property that references the user's extended profile information. </summary>
     public UserProfile? UserProfile { get; private set; } = null!;
 
