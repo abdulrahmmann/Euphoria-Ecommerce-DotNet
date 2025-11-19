@@ -115,13 +115,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    await DbSeedData.SeedRolesAsync(roleManager);
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//
+//     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+//     await DbSeedData.SeedAdminsAsync(services);
+//     await DbSeedData.SeedRolesAsync(roleManager);
+// }
 
 
 // Configure the HTTP request pipeline.

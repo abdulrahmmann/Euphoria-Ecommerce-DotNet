@@ -22,7 +22,7 @@ public class ApplicationUser: IdentityUser
     /// <item>User</item>
     /// </list>
     /// </summary>
-    public string Role { get; private set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
 
     public void SetRole(string role)
     {
