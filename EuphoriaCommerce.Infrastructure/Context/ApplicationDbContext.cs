@@ -37,6 +37,8 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
+        builder.SeedCategories();
 
         builder.Entity<Cart>().OwnsMany(c => c.CartItems, ct =>
         {

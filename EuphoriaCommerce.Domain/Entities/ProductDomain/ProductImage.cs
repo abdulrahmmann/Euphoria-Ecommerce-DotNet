@@ -11,8 +11,6 @@ public class ProductImage : Entity<Guid>
     /// <summary>URL of the image.</summary>
     public string ImageUrl { get; private set; } = null!;
 
-    /// <summary>Indicates if this image is the main product image.</summary>
-    public bool IsMain { get; private set; } = false;
 
     /// <summary>Foreign key to the Product.</summary>
     public Guid ProductId { get; private set; }
@@ -25,16 +23,14 @@ public class ProductImage : Entity<Guid>
     #region Constructor | Create
     /// <summary>Constructor | Create a ProductImage and mark as Created.</summary>
     /// <param name="imageUrl">Image URL.</param>
-    /// <param name="isMain">Indicates if main image.</param>
     /// <param name="productId">Associated product Id.</param>
     /// <param name="createdBy">Admin who created the image.</param>
-    public ProductImage(string imageUrl, bool isMain, Guid productId, string? createdBy = null)
+    public ProductImage(string imageUrl, Guid productId, string? createdBy = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
         Id = Guid.NewGuid();
         ImageUrl = imageUrl;
-        IsMain = isMain;
         ProductId = productId;
 
         MarkCreated(createdBy);
@@ -44,14 +40,12 @@ public class ProductImage : Entity<Guid>
     #region Helper Methods : Update, Delete, Restore
     /// <summary>Update a ProductImage and mark as Modified.</summary>
     /// <param name="imageUrl">Image URL.</param>
-    /// <param name="isMain">Indicates if main image.</param>
     /// <param name="modifiedBy">Admin who modified the image.</param>
-    public void Update(string imageUrl, bool isMain, string? modifiedBy = null)
+    public void Update(string imageUrl, string? modifiedBy = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
         ImageUrl = imageUrl;
-        IsMain = isMain;
 
         MarkModified(modifiedBy);
     }

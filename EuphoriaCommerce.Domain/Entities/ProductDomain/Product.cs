@@ -89,7 +89,34 @@ public class Product : Entity<Guid>
     #endregion
     
     #region Helper Methods : Update, Delete, Restore
+    public static Product Create(string name, string description, decimal price, int totalStock, Guid categoryId, Guid subCategoryId, Guid brandId, string? createdBy = null)
+    {
+        var product = new Product(name, description, price, totalStock, categoryId, subCategoryId, brandId, createdBy)
+        {
+            CreatedAt = DateTime.UtcNow
+        };
+        return product;
+    }
+    
     /// <summary>Update product basic information.</summary>
+    public void Update(string name, string description, decimal price, Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = null)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrEmpty(description);
+
+        if (price < 0)
+            throw new ArgumentException("Price must be non-negative.", nameof(price));
+
+        Name = name;
+        Description = description;
+        Price = price;
+        CategoryId = categoryId;
+        SubCategoryId = subCategoryId;
+        BrandId = brandId;
+
+        MarkModified(modifiedBy);
+    }
+    
     public void Update( string name, string description, decimal price, string? modifiedBy = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);

@@ -43,7 +43,7 @@ public class ProductVariant : Entity<Guid>
     /// <param name="stock">Initial stock.</param>
     /// <param name="priceOverride">Optional price override.</param>
     /// <param name="createdBy">Admin who created the variant.</param>
-    public ProductVariant( Guid productId, Guid colorId, Guid sizeId, int stock, decimal? priceOverride = null, string? createdBy = null)
+    public ProductVariant(Guid productId, Guid colorId, Guid sizeId, int stock, decimal? priceOverride = null, string? createdBy = null)
     {
         if (stock < 0)
             throw new ArgumentException("Stock cannot be negative.", nameof(stock));
@@ -58,22 +58,39 @@ public class ProductVariant : Entity<Guid>
 
         MarkCreated(createdBy);
     }
-
     #endregion
 
     #region Helper Methods : Update, Delete, Restore
-
+    public static ProductVariant Create(int stock, decimal? priceOverride, Guid productId, Guid colorId, Guid sizeId, string? createdBy = null)
+    {
+        var variant = new ProductVariant(productId, colorId, sizeId, stock, priceOverride, createdBy)
+        {
+            CreatedAt = DateTime.UtcNow
+        };
+        return variant;
+    }
     /// <summary>Update variant stock or price and mark it as Modified.</summary>
     /// <param name="stock">New stock value.</param>
     /// <param name="priceOverride">New price override.</param>
     /// <param name="modifiedBy">Admin who modified the variant.</param>
-    public void Update( int stock, decimal? priceOverride = null, string? modifiedBy = null)
+    public void Update(int stock, decimal? priceOverride = null, string? modifiedBy = null)
     {
         if (stock < 0)
             throw new ArgumentException("Stock cannot be negative.", nameof(stock));
 
         Stock = stock;
         PriceOverride = priceOverride;
+
+        MarkModified(modifiedBy);
+    }
+    
+    public void Update(int? stock, decimal? priceOverride, Guid? productId, Guid? colorId, Guid? sizeId, string? modifiedBy = null)
+    {
+        Stock = stock ?? Stock;
+        PriceOverride = priceOverride ?? PriceOverride;
+        ProductId = productId ?? ProductId;
+        ColorId = colorId ?? ColorId;
+        SizeId = sizeId ?? SizeId;
 
         MarkModified(modifiedBy);
     }

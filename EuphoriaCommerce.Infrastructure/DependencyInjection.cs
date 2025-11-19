@@ -1,5 +1,8 @@
 ﻿using EuphoriaCommerce.Domain.IdentityEntities;
+using EuphoriaCommerce.Domain.IRepository;
 using EuphoriaCommerce.Infrastructure.Context;
+using EuphoriaCommerce.Infrastructure.Repository;
+using EuphoriaCommerce.Infrastructure.UOF;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -41,13 +44,18 @@ public static class DependencyInjection
         
         
         // REGISTER UNIT OF WORK
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
-        
-        // REGISTER GENERIC REPOSITORY 
-        
-        
-        // REGISTER REPOSITORIES    
-        
+        // REGISTER REPOSITORIES   
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<IProductBadgeRepository, ProductBadgeRepository>();
+        services.AddScoped<IProductTagRepository, ProductTagRepository>();
+        services.AddScoped<IProductImageRepository, ProductImageRepository>();
+        services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+
         return services;
     }
 }
