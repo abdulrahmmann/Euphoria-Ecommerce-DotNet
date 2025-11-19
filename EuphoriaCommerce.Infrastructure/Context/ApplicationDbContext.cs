@@ -38,19 +38,18 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<CartItem>()
-            .Property(c => c.Price)
-            .HasPrecision(18,2);
-
-        builder.Entity<OrderItem>()
-            .Property(o => o.Price)
-            .HasPrecision(18,2);
-            
+        builder.Entity<Cart>().OwnsMany(c => c.CartItems, ct =>
+        {
+            ct.Property(x => x.Price).HasPrecision(18,2);
+        });
+        
+        builder.Entity<Order>().OwnsMany(o => o.OrderItems, oi =>
+        {
+            oi.Property(x => x.Price).HasPrecision(18,2);
+        });
+        
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-        builder.Entity<Cart>().OwnsMany(c => c.CartItems);
-        builder.Entity<Order>().OwnsMany(o => o.OrderItems);
-        
         builder.Entity<ApplicationUser>().HasQueryFilter(u => !u.IsActive);
         builder.Entity<Product>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<ProductVariant>().HasQueryFilter(u => !u.IsDeleted);
