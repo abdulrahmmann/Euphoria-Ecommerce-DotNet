@@ -45,7 +45,7 @@ public abstract class Entity<T>: IEntity<T>
     /// Marks the entity as created and sets audit information.
     /// </summary>
     /// <param name="createdBy">The user who created the entity.</param>
-    protected void MarkCreated(string? createdBy = null)
+    protected void MarkCreated(string? createdBy = "System")
     {
         CreatedAt = DateTime.UtcNow;
         CreatedBy = createdBy;
@@ -56,7 +56,7 @@ public abstract class Entity<T>: IEntity<T>
     /// Marks the entity as modified and updates audit information.
     /// </summary>
     /// <param name="modifiedBy">The user who modified the entity.</param>
-    protected void MarkModified(string? modifiedBy = null)
+    protected void MarkModified(string? modifiedBy = "System")
     {
         ModifiedAt = DateTime.UtcNow;
         ModifiedBy = modifiedBy;
@@ -66,7 +66,7 @@ public abstract class Entity<T>: IEntity<T>
     /// Marks the entity as soft-deleted and records audit information.
     /// </summary>
     /// <param name="deletedBy">The user who deleted the entity.</param>
-    protected void MarkDeleted(string? deletedBy = null)
+    protected void MarkDeleted(string? deletedBy = "System")
     {
         if (!IsDeleted)
         {
@@ -83,7 +83,7 @@ public abstract class Entity<T>: IEntity<T>
     /// Restores a soft-deleted entity and updates audit information.
     /// </summary>
     /// <param name="restoredBy">The user who restored the entity.</param>
-    protected void MarkRestored(string? restoredBy = null)
+    protected void MarkRestored(string? restoredBy = "System")
     {
         if (IsDeleted) 
         {

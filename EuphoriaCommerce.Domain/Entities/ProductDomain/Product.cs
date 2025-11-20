@@ -61,7 +61,7 @@ public class Product : Entity<Guid>
     #region Constructor | Create
     /// <summary>Create a new product and mark it as Created. </summary>
     public Product(string name, string description, decimal price, int totalStock, Guid categoryId, Guid subCategoryId,
-        Guid brandId, string? createdBy = null)
+        Guid brandId, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
@@ -89,7 +89,7 @@ public class Product : Entity<Guid>
     #endregion
     
     #region Helper Methods : Update, Delete, Restore
-    public static Product Create(string name, string description, decimal price, int totalStock, Guid categoryId, Guid subCategoryId, Guid brandId, string? createdBy = null)
+    public static Product Create(string name, string description, decimal price, int totalStock, Guid categoryId, Guid subCategoryId, Guid brandId, string? createdBy = "System")
     {
         var product = new Product(name, description, price, totalStock, categoryId, subCategoryId, brandId, createdBy)
         {
@@ -99,7 +99,7 @@ public class Product : Entity<Guid>
     }
     
     /// <summary>Update product basic information.</summary>
-    public void Update(string name, string description, decimal price, Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = null)
+    public void Update(string name, string description, decimal price, Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
@@ -117,7 +117,7 @@ public class Product : Entity<Guid>
         MarkModified(modifiedBy);
     }
     
-    public void Update( string name, string description, decimal price, string? modifiedBy = null)
+    public void Update( string name, string description, decimal price, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
@@ -133,7 +133,7 @@ public class Product : Entity<Guid>
     }
 
     /// <summary>Update the product category or brand.</summary>
-    public void UpdateCategoryBrand( Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = null)
+    public void UpdateCategoryBrand( Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = "System")
     {
         CategoryId = categoryId;
         SubCategoryId = subCategoryId;
@@ -143,13 +143,13 @@ public class Product : Entity<Guid>
     }
 
     /// <summary>Soft delete the product.</summary>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a deleted product.</summary>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }
