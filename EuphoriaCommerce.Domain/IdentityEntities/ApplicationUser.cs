@@ -38,12 +38,12 @@ public class ApplicationUser: IdentityUser
     /// <summary>
     /// Represent the refresh token assigned to the user.
     /// </summary>
-    private string? RefreshToken { get; set; } 
+    public string? RefreshToken { get; set; } 
     
     /// <summary>
     /// Represent the expiration date and time of the refresh token.
     /// </summary>
-    private DateTime? RefreshTokenExpiration { get; set; }
+    public DateTime? RefreshTokenExpiration { get; set; }
     #endregion
 
     public static ApplicationUser Create(string email, string username)

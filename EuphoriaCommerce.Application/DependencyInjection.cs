@@ -5,6 +5,7 @@ using EuphoriaCommerce.Application.Features.ProductsFeature.DTOs;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Queries.GetProducts;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Validations;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.ChangePassword;
+using EuphoriaCommerce.Application.Features.UsersFeature.Commands.GenerateNewAccessToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Login;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GeneratePrincipalJwtToken;
@@ -40,6 +41,7 @@ public static class DependencyInjection
         
         // Register CQRS Functionality: Request + handler
         // Users
+        services.AddTransient<ICommandHandler<GenerateNewAccessTokenCommand, AuthenticationResponse>, GenerateNewAccessTokenCommandHandler>();
         services.AddTransient<ICommandHandler<RegisterUserCommand, AuthenticationResponse>, RegisterUserCommandHandler>();
         services.AddTransient<ICommandHandler<LoginUserCommand, AuthenticationResponse>, LoginUserCommandHandler>();
         services.AddTransient<ICommandHandler<ChangePasswordCommand, AuthenticationResponse>, ChangePasswordCommandHandler>();
