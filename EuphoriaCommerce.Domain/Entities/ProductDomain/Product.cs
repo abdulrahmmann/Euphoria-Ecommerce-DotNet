@@ -55,7 +55,7 @@ public class Product : Entity<Guid>
 
     /// <summary>Product tags used for searching and filtering.</summary>
     public ICollection<ProductTag> Tags { get; private set; } = new List<ProductTag>();
-
+    
     private Product() { }
 
     #region Constructor | Create

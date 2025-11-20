@@ -1,5 +1,6 @@
 ﻿using EuphoriaCommerce.Application.Caching;
 using EuphoriaCommerce.Application.Common;
+using EuphoriaCommerce.Application.Features.ProductsFeature.Validations;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.ChangePassword;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Login;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
@@ -27,12 +28,15 @@ public static class DependencyInjection
         services.AddScoped<IGeneratePrincipalFromJwtTokenService, GeneratePrincipalFromJwtTokenService>();
         
         // Register Fluent Validation
-        // USER VALIDATOR
+        // User Validations
         services.AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
         services.AddValidatorsFromAssemblyContaining<LoginUserValidator>();
+        services.AddValidatorsFromAssemblyContaining<ProductValidator>();
+        
+        // Products Validations
+        
         
         // Register CQRS Functionality: Request + handler
-        
         // Users
         services.AddTransient<ICommandHandler<RegisterUserCommand, AuthenticationResponse>, RegisterUserCommandHandler>();
         services.AddTransient<ICommandHandler<LoginUserCommand, AuthenticationResponse>, LoginUserCommandHandler>();
