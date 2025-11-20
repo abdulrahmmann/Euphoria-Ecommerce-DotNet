@@ -31,14 +31,14 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
             .OrderBy(product => product.Name)
             .ThenBy(product => product.Price);
     }
-    public async Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = null)
+    public async Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = "System")
     {
         var productToAdd = Product.Create(product.Name,  product.Description, product.Price, product.TotalStock, product.CategoryId, product.SubCategoryId, product.BrandId, createdBy);
         
         await dbContext.Products.AddAsync(productToAdd, cancellationToken);
     }
-
-    public async Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken, string? modifiedBy = null)
+    
+    public async Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken, string? modifiedBy = "product")
     {
         var productToUpdate = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
@@ -57,5 +57,10 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
         var productToRestore = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
         productToRestore?.Restore(restoredBy);
+    }
+
+    public async Task<bool> ExistsAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Products.AsNoTracking().AnyAsync(predicate, cancellationToken);
     }
 }

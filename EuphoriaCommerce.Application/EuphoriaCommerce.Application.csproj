@@ -28,7 +28,6 @@
 
     <ItemGroup>
       <Folder Include="Caching\" />
-      <Folder Include="Features\ProductsFeature\Commands\" />
       <Folder Include="Features\UsersFeature\Queries\" />
     </ItemGroup>
 

@@ -28,10 +28,9 @@ public static class DependencyInjection
         services.AddScoped<IGeneratePrincipalFromJwtTokenService, GeneratePrincipalFromJwtTokenService>();
         
         // Register Fluent Validation
-        // User Validations
         services.AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
         services.AddValidatorsFromAssemblyContaining<LoginUserValidator>();
-        services.AddValidatorsFromAssemblyContaining<ProductValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
         
         // Products Validations
         
