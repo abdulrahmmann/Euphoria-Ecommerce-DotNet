@@ -39,5 +39,7 @@ public interface IProductRepository
     /// <param name="restoredBy">The admin who restore the Product.</param>
     Task RestoreProduct(Guid id, CancellationToken cancellationToken, string? restoredBy = null);
     
+    Task<Product?> GetProductById(Guid id, CancellationToken cancellationToken);
+    
     Task<bool> ExistsAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default);
 }

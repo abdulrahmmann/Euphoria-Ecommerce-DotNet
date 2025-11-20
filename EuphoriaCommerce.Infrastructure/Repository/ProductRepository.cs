@@ -42,7 +42,7 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
     {
         var productToUpdate = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
-        productToUpdate?.Update(product.Name, product.Description, product.Price, product.CategoryId, product.SubCategoryId, product.BrandId, modifiedBy);
+        productToUpdate?.Update(product.Name, product.Description, product.Price, product.TotalStock, product.CategoryId, product.SubCategoryId, product.BrandId, modifiedBy);
     }
 
     public async Task DeleteProduct(Guid id, CancellationToken cancellationToken, string? deletedBy = null)
@@ -57,6 +57,11 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
         var productToRestore = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
         productToRestore?.Restore(restoredBy);
+    }
+
+    public async Task<Product?> GetProductById(Guid id, CancellationToken cancellationToken)
+    {
+        return await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
     }
 
     public async Task<bool> ExistsAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)

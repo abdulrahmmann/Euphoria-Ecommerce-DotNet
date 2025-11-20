@@ -99,20 +99,15 @@ public class Product : Entity<Guid>
     }
     
     /// <summary>Update product basic information.</summary>
-    public void Update(string name, string description, decimal price, Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = "System")
+    public void Update(string? name, string? description, decimal? price, int? totalStock, Guid? categoryId, Guid? subCategoryId, Guid? brandId, string? modifiedBy = "System")
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentException.ThrowIfNullOrEmpty(description);
-
-        if (price < 0)
-            throw new ArgumentException("Price must be non-negative.", nameof(price));
-
-        Name = name;
-        Description = description;
-        Price = price;
-        CategoryId = categoryId;
-        SubCategoryId = subCategoryId;
-        BrandId = brandId;
+        Name = name ?? Name;
+        Description = description ?? Description;
+        Price = price ?? Price;
+        TotalStock = totalStock ?? TotalStock;
+        CategoryId = categoryId ?? CategoryId;
+        SubCategoryId = subCategoryId ?? SubCategoryId;
+        BrandId = brandId ?? BrandId;
 
         MarkModified(modifiedBy);
     }
