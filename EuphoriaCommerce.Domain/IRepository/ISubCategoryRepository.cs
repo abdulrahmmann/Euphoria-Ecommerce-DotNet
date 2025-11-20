@@ -1,10 +1,13 @@
-﻿using EuphoriaCommerce.Domain.Entities.CatalogDomain;
+﻿using System.Linq.Expressions;
+using EuphoriaCommerce.Domain.Entities.CatalogDomain;
 
 namespace EuphoriaCommerce.Domain.IRepository;
 
 public interface ISubCategoryRepository
 {
-    Task<List<SubCategory>> GetSubCategories(CancellationToken cancellationToken);
+    IQueryable<SubCategory?> GetSubCategories();
+    
+    IQueryable<SubCategory?> FilterSubCategoryByCondition(Expression<Func<SubCategory, bool>>  predicate);
     
     Task AddSubCategory(SubCategory category, CancellationToken cancellationToken);
 }

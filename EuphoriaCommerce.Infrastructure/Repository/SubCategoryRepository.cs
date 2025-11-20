@@ -1,4 +1,5 @@
-﻿using EuphoriaCommerce.Domain.Entities.CatalogDomain;
+﻿using System.Linq.Expressions;
+using EuphoriaCommerce.Domain.Entities.CatalogDomain;
 using EuphoriaCommerce.Domain.IRepository;
 using EuphoriaCommerce.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,23 @@ namespace EuphoriaCommerce.Infrastructure.Repository;
 
 public class SubCategoryRepository(ApplicationDbContext dbContext): ISubCategoryRepository
 {
-    public async Task<List<SubCategory>> GetSubCategories(CancellationToken cancellationToken)
+    public IQueryable<SubCategory?> GetSubCategories()
     {
-        return await dbContext.SubCategories.Include(sc => sc.Category).ToListAsync(cancellationToken);
+        return dbContext.SubCategories
+            .AsNoTracking()
+            .Include(sc => sc.Category)
+            .OrderBy(sc => sc.Name);
     }
 
+    public IQueryable<SubCategory?> FilterSubCategoryByCondition(Expression<Func<SubCategory, bool>> predicate)
+    {
+        return dbContext.SubCategories
+            .AsNoTracking()
+            .Include(sc => sc.Category)
+            .Where(predicate)
+            .OrderBy(sc => sc.Name);
+    }
+    
     public async Task AddSubCategory(SubCategory category, CancellationToken cancellationToken)
     {
         var subCategoryToAdd = await dbContext.SubCategories.FirstOrDefaultAsync(c => c.Name == category.Name, cancellationToken);
