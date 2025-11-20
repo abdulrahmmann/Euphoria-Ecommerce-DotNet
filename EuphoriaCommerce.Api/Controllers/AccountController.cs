@@ -15,7 +15,7 @@ namespace Euphoria_ecommerce.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class Account(Dispatcher dispatcher) : AppControllerBase
+    public class AccountController(Dispatcher dispatcher) : AppControllerBase
     {
         [Authorize(Roles = "User,Admin,Management,Auditor")]
         public async Task<IActionResult> GenerateNewAccessToken(TokenModel tokenModel)
