@@ -1,5 +1,8 @@
 ﻿using EuphoriaCommerce.Application.Caching;
 using EuphoriaCommerce.Application.Common;
+using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.CreateProduct;
+using EuphoriaCommerce.Application.Features.ProductsFeature.DTOs;
+using EuphoriaCommerce.Application.Features.ProductsFeature.Queries.GetProducts;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Validations;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.ChangePassword;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Login;
@@ -40,6 +43,10 @@ public static class DependencyInjection
         services.AddTransient<ICommandHandler<RegisterUserCommand, AuthenticationResponse>, RegisterUserCommandHandler>();
         services.AddTransient<ICommandHandler<LoginUserCommand, AuthenticationResponse>, LoginUserCommandHandler>();
         services.AddTransient<ICommandHandler<ChangePasswordCommand, AuthenticationResponse>, ChangePasswordCommandHandler>();
+        
+        // Products
+        services.AddTransient<ICommandHandler<CreateProductCommand, BaseResponse<string>>, CreateProductCommandHandler>();
+        services.AddTransient<IQueryHandler<GetProductsQuery, BaseResponse<List<ProductDto>>>, GetProductsQueryHandler>();
         
         return services;
     }
