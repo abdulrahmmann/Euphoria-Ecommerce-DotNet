@@ -8,16 +8,29 @@ namespace EuphoriaCommerce.Infrastructure.Repository;
 
 public class ProductRepository(ApplicationDbContext dbContext): IProductRepository
 {
-    public IQueryable<Product> GetProducts()
+    public IQueryable<Product?> GetProducts()
     {
-        return dbContext.Products.AsNoTracking().AsQueryable();
+        return dbContext.Products.AsNoTracking()
+            .Include(c => c.Category)
+            .Include(sc => sc.SubCategory)
+            .Include(br => br.Brand)
+            .OrderBy(product => product.Name)
+            .ThenBy(product => product.Price)
+            .AsSplitQuery();
     }
-
-    public IQueryable<Product?> GetProductByProductId(Guid id)
+    
+    public IQueryable<Product?> FilterProductsByCondition(Expression<Func<Product, bool>>  predicate)
     {
-        return dbContext.Products.AsNoTracking().Where(x => x.Id == id);
+        return dbContext.Products
+            .AsNoTracking()
+            .Include(c => c.Category)
+            .Include(sc => sc.SubCategory)
+            .Include(br => br.Brand)
+            .AsSplitQuery()
+            .Where(predicate)
+            .OrderBy(product => product.Name)
+            .ThenBy(product => product.Price);
     }
-
     public async Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = null)
     {
         var productToAdd = Product.Create(product.Name,  product.Description, product.Price, product.TotalStock, product.CategoryId, product.SubCategoryId, product.BrandId, createdBy);
@@ -27,27 +40,22 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
 
     public async Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken, string? modifiedBy = null)
     {
-        var productToUpdate = await dbContext.Products.FindAsync(id, cancellationToken);
+        var productToUpdate = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
         productToUpdate?.Update(product.Name, product.Description, product.Price, product.CategoryId, product.SubCategoryId, product.BrandId, modifiedBy);
     }
 
     public async Task DeleteProduct(Guid id, CancellationToken cancellationToken, string? deletedBy = null)
     {
-        var productToDelete = await dbContext.Products.FindAsync(id, cancellationToken);
+        var productToDelete = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
         productToDelete?.Delete(deletedBy);
     }
 
     public async Task RestoreProduct(Guid id, CancellationToken cancellationToken, string? restoredBy = null)
     {
-        var productToRestore = await dbContext.Products.FindAsync(id, cancellationToken);
+        var productToRestore = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
         productToRestore?.Restore(restoredBy);
-    }
-
-    public IQueryable<Product?> FilterProductByCondition(Expression<Func<Product, bool>>  predicate)
-    {
-        return dbContext.Products.AsNoTracking().Where(predicate);
     }
 }

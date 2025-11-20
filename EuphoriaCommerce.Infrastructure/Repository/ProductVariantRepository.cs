@@ -8,18 +8,27 @@ namespace EuphoriaCommerce.Infrastructure.Repository;
 
 public class ProductVariantRepository(ApplicationDbContext dbContext): IProductVariantRepository
 {
-    public async Task<List<ProductVariant>> GetProductVariants(CancellationToken cancellationToken)
+    public IQueryable<ProductVariant?> GetProductVariants()
     {
-        return await dbContext.ProductVariants
+        return dbContext.ProductVariants.AsNoTracking()
             .Include(p => p.Product)
-            .Include(c => c.Color)
-            .Include(s => s.Size)
-            .ToListAsync(cancellationToken);
+            .Include(clr => clr.Color)
+            .Include(sz => sz.Size)
+            .OrderBy(variant => variant.Product.Name)
+            .ThenBy(variant => variant.Stock)
+            .AsSplitQuery();
     }
-
-    public async Task<ProductVariant?> GetProductVariantByProductId(Guid id, CancellationToken cancellationToken)
+    
+    public IQueryable<ProductVariant?> FilterVariantsByCondition(Expression<Func<ProductVariant, bool>> predicate)
     {
-        return await dbContext.ProductVariants.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        return dbContext.ProductVariants.AsNoTracking()
+            .Include(p => p.Product)
+            .Include(clr => clr.Color)
+            .Include(sz => sz.Size)
+            .AsSplitQuery()
+            .OrderBy(variant => variant.Product.Name)
+            .ThenBy(variant => variant.Stock)
+            .Where(predicate);
     }
     
     public async Task AddProductVariant(ProductVariant variant, CancellationToken cancellationToken, string? createdBy = null)
@@ -31,40 +40,22 @@ public class ProductVariantRepository(ApplicationDbContext dbContext): IProductV
 
     public async Task UpdateProductVariant(Guid id, ProductVariant variant, CancellationToken cancellationToken, string? modifiedBy = null)
     {
-        var variantToUpdate = await dbContext.ProductVariants.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        var variantToUpdate = await dbContext.ProductVariants.SingleOrDefaultAsync(v => v.Id == id, cancellationToken);
 
         variantToUpdate?.Update(variant.Stock, variant.PriceOverride, variant.ProductId, variant.ColorId, variant.SizeId, modifiedBy);
     }
 
     public async Task DeleteProductVariant(Guid id, CancellationToken cancellationToken, string? deletedBy = null)
     {
-        var variantToDelete = await dbContext.ProductVariants.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        var variantToDelete = await dbContext.ProductVariants.SingleOrDefaultAsync(v => v.Id == id, cancellationToken);
 
         variantToDelete?.Delete(deletedBy);
     }
-
+    
     public async Task RestoreProductVariant(Guid id, CancellationToken cancellationToken, string? restoredBy = null)
     {
-        var variantToRestore = await dbContext.ProductVariants.FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        var variantToRestore = await dbContext.ProductVariants.SingleOrDefaultAsync(v => v.Id == id, cancellationToken);
 
         variantToRestore?.Restore(restoredBy);
-    }
-
-    public async Task<ProductVariant?> FilterVariantByCondition(Expression<Func<ProductVariant, bool>> predicate, CancellationToken cancellationToken)
-    {
-        return await dbContext.ProductVariants
-            .Include(p => p.Product)
-            .Include(c => c.Color)
-            .Include(s => s.Size)
-            .FirstOrDefaultAsync(predicate, cancellationToken);
-    }
-
-    public IQueryable<ProductVariant> FilterVariantsByCondition(Expression<Func<ProductVariant, bool>> predicate)
-    {
-        return dbContext.ProductVariants
-            .Include(p => p.Product)
-            .Include(c => c.Color)
-            .Include(s => s.Size)
-            .Where(predicate);
     }
 }
