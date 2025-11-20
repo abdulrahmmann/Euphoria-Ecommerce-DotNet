@@ -68,4 +68,9 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
     {
         return await dbContext.Products.AsNoTracking().AnyAsync(predicate, cancellationToken);
     }
+
+    public async Task<bool> ExistsWithIgnoreQueryFilterAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Products.IgnoreQueryFilters().AsNoTracking().AnyAsync(predicate, cancellationToken);
+    }
 }

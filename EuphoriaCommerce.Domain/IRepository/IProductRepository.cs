@@ -18,28 +18,30 @@ public interface IProductRepository
     /// <param name="product">The new product which wants to add it.</param>
     /// <param name="cancellationToken">cancellationToken</param>
     /// <param name="createdBy">The admin who create the Product.</param>
-    Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = null);
+    Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = "System");
     
     /// <summary>Update a Product.</summary>
     /// <param name="id">The Product ID.</param>
     /// <param name="product">The product which wants to replace the variant with it.</param>
     /// <param name="cancellationToken">cancellationToken</param>
     /// <param name="modifiedBy">The admin who modify the Product.</param>
-    Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken, string? modifiedBy = null);
+    Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken, string? modifiedBy = "System");
     
     /// <summary>Delete a Product.</summary>
     /// <param name="id">The Product ID.</param>
     /// <param name="cancellationToken">cancellationToken</param>
     /// <param name="deletedBy">The admin who delete the Product.</param>
-    Task DeleteProduct(Guid id, CancellationToken cancellationToken, string? deletedBy = null);
+    Task DeleteProduct(Guid id, CancellationToken cancellationToken, string? deletedBy = "System");
     
     /// <summary>Restore a Deleted Product.</summary>
     /// <param name="id">The Product ID.</param>
     /// <param name="cancellationToken">cancellationToken</param>
     /// <param name="restoredBy">The admin who restore the Product.</param>
-    Task RestoreProduct(Guid id, CancellationToken cancellationToken, string? restoredBy = null);
+    Task RestoreProduct(Guid id, CancellationToken cancellationToken, string? restoredBy = "System");
     
     Task<Product?> GetProductById(Guid id, CancellationToken cancellationToken);
     
     Task<bool> ExistsAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default);
+    Task<bool> ExistsWithIgnoreQueryFilterAsync
+        (Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default);
 }

@@ -20,7 +20,7 @@ public class CreateProductCommandHandler(
         {
             var exists  = await unitOfWork.GetProductRepo
                 .ExistsAsync(p => p.Name.ToLower() == request.Name.ToLower(), cancellationToken);
-
+            
             if (exists )
             {
                 logger.Warning("Product already exists");

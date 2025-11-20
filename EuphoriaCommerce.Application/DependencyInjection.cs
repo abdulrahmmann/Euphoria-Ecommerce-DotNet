@@ -1,6 +1,8 @@
 ﻿using EuphoriaCommerce.Application.Caching;
 using EuphoriaCommerce.Application.Common;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.CreateProduct;
+using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.DeleteProduct;
+using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.RestoreProduct;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.UpdateProduct;
 using EuphoriaCommerce.Application.Features.ProductsFeature.DTOs;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Queries.GetProducts;
@@ -50,6 +52,8 @@ public static class DependencyInjection
         // Products
         services.AddTransient<ICommandHandler<CreateProductCommand, BaseResponse<string>>, CreateProductCommandHandler>();
         services.AddTransient<ICommandHandler<UpdateProductCommand, BaseResponse<string>>, UpdateProductCommandHandler>();
+        services.AddTransient<ICommandHandler<DeleteProductCommand, BaseResponse<string>>, DeleteProductCommandHandler>();
+        services.AddTransient<ICommandHandler<RestoreProductCommand, BaseResponse<string>>, RestoreProductCommandHandler>();
         
         services.AddTransient<IQueryHandler<GetProductsQuery, BaseResponse<List<ProductDto>>>, GetProductsQueryHandler>();
         
