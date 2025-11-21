@@ -24,7 +24,7 @@ public class Brand: Entity<Guid>
     /// <param name="name">Brand Name.</param>
     /// <param name="logoUrl">Brand Logo.</param>
     /// <param name="createdBy">Admin Who create the brand.</param>
-    public Brand(string name, string logoUrl, string? createdBy = null)
+    public Brand(string name, string logoUrl, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(logoUrl);
@@ -42,7 +42,7 @@ public class Brand: Entity<Guid>
     /// <param name="name"> Brand Name. </param>
     /// <param name="logoUrl"> Brand Logo. </param>
     /// <param name="modifiedBy">Admin Who modify the brand.</param>
-    public void Update(string name, string logoUrl, string? modifiedBy = null)
+    public void Update(string name, string logoUrl, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(logoUrl);
@@ -55,13 +55,13 @@ public class Brand: Entity<Guid>
     
     /// <summary> Softly Delete a Brand and mark as Deleted.</summary>/ 
     /// <param name="deletedBy">Admin Who delete the brand.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy); 
     }
     /// <summary> Restore Softly Deleted Brand and mark as Restored.</summary>/ 
     /// <param name="restoredBy">the admin who restore the brand.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

@@ -20,7 +20,7 @@ public class ProductTag : Entity<Guid>
     /// <summary>Constructor | Create a ProductTag and mark as Created.</summary>
     /// <param name="name">Tag name.</param>
     /// <param name="createdBy">Admin who created the tag.</param>
-    public ProductTag(string name, string? createdBy = null)
+    public ProductTag(string name, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
 
@@ -35,7 +35,7 @@ public class ProductTag : Entity<Guid>
     /// <summary>Update a ProductTag and mark as Modified.</summary>
     /// <param name="name">Tag name.</param>
     /// <param name="modifiedBy">Admin who modified the tag.</param>
-    public void Update(string name, string? modifiedBy = null)
+    public void Update(string name, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
 
@@ -46,14 +46,14 @@ public class ProductTag : Entity<Guid>
 
     /// <summary>Softly delete a ProductTag and mark as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the tag.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted ProductTag and mark as Restored.</summary>
     /// <param name="restoredBy">Admin who restored the tag.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

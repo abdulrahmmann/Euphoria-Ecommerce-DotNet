@@ -25,7 +25,7 @@ public class ProductImage : Entity<Guid>
     /// <param name="imageUrl">Image URL.</param>
     /// <param name="productId">Associated product Id.</param>
     /// <param name="createdBy">Admin who created the image.</param>
-    public ProductImage(string imageUrl, Guid productId, string? createdBy = null)
+    public ProductImage(string imageUrl, Guid productId, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
@@ -41,7 +41,7 @@ public class ProductImage : Entity<Guid>
     /// <summary>Update a ProductImage and mark as Modified.</summary>
     /// <param name="imageUrl">Image URL.</param>
     /// <param name="modifiedBy">Admin who modified the image.</param>
-    public void Update(string imageUrl, string? modifiedBy = null)
+    public void Update(string imageUrl, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(imageUrl);
 
@@ -52,14 +52,14 @@ public class ProductImage : Entity<Guid>
 
     /// <summary>Softly delete a ProductImage and mark as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the image.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted ProductImage and mark as Restored.</summary>
     /// <param name="restoredBy">Admin who restored the image.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

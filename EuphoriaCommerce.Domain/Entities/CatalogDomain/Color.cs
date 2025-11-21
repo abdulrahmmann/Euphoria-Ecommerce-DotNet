@@ -25,7 +25,7 @@ public class Color : Entity<Guid>
     /// <param name="name">Color name.</param>
     /// <param name="hexCode">Hex code of the color.</param>
     /// <param name="createdBy">Admin who created the color.</param>
-    public Color(string name, string hexCode, string? createdBy = null)
+    public Color(string name, string hexCode, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(hexCode);
@@ -43,7 +43,7 @@ public class Color : Entity<Guid>
     /// <param name="name">Color name.</param>
     /// <param name="hexCode">Hex code of the color.</param>
     /// <param name="modifiedBy">Admin who modified the color.</param>
-    public void Update(string name, string hexCode, string? modifiedBy = null)
+    public void Update(string name, string hexCode, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(hexCode);
@@ -56,14 +56,14 @@ public class Color : Entity<Guid>
 
     /// <summary>Softly delete a Color and mark as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the color.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted Color and mark as Restored.</summary>
     /// <param name="restoredBy">Admin who restored the color.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

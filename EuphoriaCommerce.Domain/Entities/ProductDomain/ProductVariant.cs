@@ -43,7 +43,7 @@ public class ProductVariant : Entity<Guid>
     /// <param name="stock">Initial stock.</param>
     /// <param name="priceOverride">Optional price override.</param>
     /// <param name="createdBy">Admin who created the variant.</param>
-    public ProductVariant(Guid productId, Guid colorId, Guid sizeId, int stock, decimal? priceOverride = null, string? createdBy = null)
+    public ProductVariant(Guid productId, Guid colorId, Guid sizeId, int stock, decimal? priceOverride = null, string? createdBy = "System")
     {
         if (stock < 0)
             throw new ArgumentException("Stock cannot be negative.", nameof(stock));
@@ -61,7 +61,7 @@ public class ProductVariant : Entity<Guid>
     #endregion
 
     #region Helper Methods : Update, Delete, Restore
-    public static ProductVariant Create(int stock, decimal? priceOverride, Guid productId, Guid colorId, Guid sizeId, string? createdBy = null)
+    public static ProductVariant Create(int stock, decimal? priceOverride, Guid productId, Guid colorId, Guid sizeId, string? createdBy = "System")
     {
         var variant = new ProductVariant(productId, colorId, sizeId, stock, priceOverride, createdBy)
         {
@@ -73,7 +73,7 @@ public class ProductVariant : Entity<Guid>
     /// <param name="stock">New stock value.</param>
     /// <param name="priceOverride">New price override.</param>
     /// <param name="modifiedBy">Admin who modified the variant.</param>
-    public void Update(int stock, decimal? priceOverride = null, string? modifiedBy = null)
+    public void Update(int stock, decimal? priceOverride = null, string? modifiedBy = "System")
     {
         if (stock < 0)
             throw new ArgumentException("Stock cannot be negative.", nameof(stock));
@@ -84,7 +84,7 @@ public class ProductVariant : Entity<Guid>
         MarkModified(modifiedBy);
     }
     
-    public void Update(int? stock, decimal? priceOverride, Guid? productId, Guid? colorId, Guid? sizeId, string? modifiedBy = null)
+    public void Update(int? stock, decimal? priceOverride, Guid? productId, Guid? colorId, Guid? sizeId, string? modifiedBy = "System")
     {
         Stock = stock ?? Stock;
         PriceOverride = priceOverride ?? PriceOverride;
@@ -110,14 +110,14 @@ public class ProductVariant : Entity<Guid>
 
     /// <summary>Soft delete the variant and mark it as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted this variant.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted variant and mark it as Restored.</summary>
     /// <param name="restoredBy">Admin who restored this variant.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

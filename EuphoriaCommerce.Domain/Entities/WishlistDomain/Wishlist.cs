@@ -32,7 +32,7 @@ public class Wishlist : Entity<Guid>
     /// <param name="userId">User who added the product.</param>
     /// <param name="productId">Product added to wishlist.</param>
     /// <param name="createdBy">Admin Who Create Wishlist.</param>
-    public Wishlist(string userId, Guid productId, string? createdBy = null)
+    public Wishlist(string userId, Guid productId, string? createdBy = "System")
     {
         ArgumentOutOfRangeException.ThrowIfEqual(userId, string.Empty);
         ArgumentOutOfRangeException.ThrowIfEqual(productId, Guid.Empty);
@@ -52,7 +52,7 @@ public class Wishlist : Entity<Guid>
     /// Softly delete wishlist item and mark as Deleted.
     /// </summary>
     /// <param name="deletedBy">Admin/user who deleted the record.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
@@ -61,7 +61,7 @@ public class Wishlist : Entity<Guid>
     /// Restore a softly deleted wishlist item and mark as Restored.
     /// </summary>
     /// <param name="restoredBy">Admin/user who restored the record.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

@@ -32,7 +32,7 @@ public class Feedback : Entity<Guid>
     /// <param name="comment">User comment.</param>
     /// <param name="productId">The reviewed product.</param>
     /// <param name="createdBy">User/admin who created the feedback.</param>
-    public Feedback(int rating, string comment, Guid productId, string? createdBy = null)
+    public Feedback(int rating, string comment, Guid productId, string? createdBy = "System")
     {
         if (rating is < 1 or > 5)
             throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 5.");
@@ -58,7 +58,7 @@ public class Feedback : Entity<Guid>
     /// <param name="rating">New rating.</param>
     /// <param name="comment">New comment.</param>
     /// <param name="modifiedBy">User/admin who modified the entry.</param>
-    public void Update(int rating, string comment, string? modifiedBy = null)
+    public void Update(int rating, string comment, string? modifiedBy = "System")
     {
         if (rating is < 1 or > 5)
             throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 5.");
@@ -75,7 +75,7 @@ public class Feedback : Entity<Guid>
     /// Soft delete feedback and mark as Deleted.
     /// </summary>
     /// <param name="deletedBy">User/admin who deleted the feedback.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
@@ -84,7 +84,7 @@ public class Feedback : Entity<Guid>
     /// Restore a softly deleted feedback and mark as Restored.
     /// </summary>
     /// <param name="restoredBy">User/admin who restored the feedback.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

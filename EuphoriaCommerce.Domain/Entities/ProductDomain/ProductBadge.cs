@@ -23,13 +23,12 @@ public class ProductBadge : Entity<Guid>
     private ProductBadge() { }
 
     #region Constructor | Create
-
     /// <summary>Create a Product Badge and mark it as Created.</summary>
     /// <param name="name">Badge name (e.g., Hot, Limited, New).</param>
     /// <param name="color">Badge color.</param>
     /// <param name="productId">The product that owns this badge.</param>
     /// <param name="createdBy">Admin who created this badge.</param>
-    public ProductBadge(string name, string color, Guid productId, string? createdBy = null)
+    public ProductBadge(string name, string color, Guid productId, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(color);
@@ -49,7 +48,7 @@ public class ProductBadge : Entity<Guid>
     /// <param name="name">Badge name.</param>
     /// <param name="color">Badge color.</param>
     /// <param name="modifiedBy">Admin who made the modification.</param>
-    public void Update(string name, string color, string? modifiedBy = null)
+    public void Update(string name, string color, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(color);
@@ -62,14 +61,14 @@ public class ProductBadge : Entity<Guid>
 
     /// <summary>Soft delete this badge and mark it as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the badge.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted badge and mark it as Restored.</summary>
     /// <param name="restoredBy">Admin who restored the badge.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }
