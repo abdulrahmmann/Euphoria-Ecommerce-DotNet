@@ -27,7 +27,7 @@ public class Category : Entity<Guid>
     /// <param name="name">Category name.</param>
     /// <param name="description">Category description.</param>
     /// <param name="createdBy">Admin who created the category.</param>
-    public Category(string name, string description, string? createdBy = null)
+    public Category(string name, string description, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
@@ -45,7 +45,7 @@ public class Category : Entity<Guid>
     /// <param name="name">Category name.</param>
     /// <param name="description">Category description.</param>
     /// <param name="modifiedBy">Admin who modified the category.</param>
-    public void Update(string name, string description, string? modifiedBy = null)
+    public void Update(string name, string description, string? modifiedBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
@@ -58,14 +58,14 @@ public class Category : Entity<Guid>
 
     /// <summary>Softly delete a Category and mark as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the category.</param>
-    public void Delete(string? deletedBy = null)
+    public void Delete(string? deletedBy = "System")
     {
         MarkDeleted(deletedBy);
     }
 
     /// <summary>Restore a softly deleted Category and mark as Restored.</summary>
     /// <param name="restoredBy">Admin who restored the category.</param>
-    public void Restore(string? restoredBy = null)
+    public void Restore(string? restoredBy = "System")
     {
         MarkRestored(restoredBy);
     }

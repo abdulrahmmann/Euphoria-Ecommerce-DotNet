@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EuphoriaCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251119143402_Initial")]
+    [Migration("20251121140738_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -236,6 +236,48 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.ToTable("Colors", (string)null);
                 });
 
+            modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.GenderCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RestoredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RestoredBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GenderCategories");
+                });
+
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Size", b =>
                 {
                     b.Property<Guid>("Id")
@@ -290,68 +332,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("Sizes", (string)null);
-                });
-
-            modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.SubCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("SubCategoryDescription");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)")
-                        .HasColumnName("SubCategoryName");
-
-                    b.Property<DateTime?>("RestoredAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RestoredBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id")
-                        .HasName("PK_SubCategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("SubCategories", (string)null);
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.OrderDomain.Order", b =>
@@ -427,6 +407,9 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasColumnName("ProductDescription");
 
+                    b.Property<Guid>("GenderCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -455,9 +438,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.Property<string>("RestoredBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SubCategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("TotalStock")
                         .HasColumnType("int");
 
@@ -466,9 +446,9 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("GenderCategoryId");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasIndex("Name");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -564,9 +544,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -869,6 +846,12 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiration")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1089,18 +1072,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.Navigation("CartItems");
                 });
 
-            modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.SubCategory", b =>
-                {
-                    b.HasOne("EuphoriaCommerce.Domain.Entities.CatalogDomain.Category", "Category")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("FK_SubCategory_CategoryId");
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.OrderDomain.Order", b =>
                 {
                     b.OwnsMany("EuphoriaCommerce.Domain.Entities.OrderDomain.OrderItem", "OrderItems", b1 =>
@@ -1151,18 +1122,18 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Product_Category_Id");
 
-                    b.HasOne("EuphoriaCommerce.Domain.Entities.CatalogDomain.SubCategory", "SubCategory")
+                    b.HasOne("EuphoriaCommerce.Domain.Entities.CatalogDomain.GenderCategory", "GenderCategory")
                         .WithMany("Products")
-                        .HasForeignKey("SubCategoryId")
+                        .HasForeignKey("GenderCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Product_SubCategory_Id");
+                        .HasConstraintName("FK_Product_Gender_Id");
 
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
 
-                    b.Navigation("SubCategory");
+                    b.Navigation("GenderCategory");
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.ProductDomain.ProductBadge", b =>
@@ -1392,8 +1363,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Category", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Color", b =>
@@ -1401,14 +1370,14 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.Navigation("Variants");
                 });
 
+            modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.GenderCategory", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Size", b =>
                 {
                     b.Navigation("Variants");
-                });
-
-            modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.SubCategory", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.ProductDomain.Product", b =>

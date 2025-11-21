@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EuphoriaCommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251121131724_add-gendercategory-remove-subcategory")]
-    partial class addgendercategoryremovesubcategory
+    [Migration("20251121141101_seed-admins-categories-data")]
+    partial class seedadminscategoriesdata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,98 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("926d4b51-c316-6c5b-8973-a09394584474"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 0, DateTimeKind.Utc).AddTicks(9834),
+                            CreatedBy = "System",
+                            Description = "All types of shirts for men, women and kids",
+                            IsDeleted = false,
+                            Name = "Shirts"
+                        },
+                        new
+                        {
+                            Id = new Guid("61854766-5368-5559-8b3a-4961a66d456e"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4530),
+                            CreatedBy = "System",
+                            Description = "All types of shoes including sneakers, formal and casual",
+                            IsDeleted = false,
+                            Name = "Shoes"
+                        },
+                        new
+                        {
+                            Id = new Guid("a66986e1-bced-5550-846a-779b9149f3d8"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4900),
+                            CreatedBy = "System",
+                            Description = "Jeans, trousers, leggings, and other pants",
+                            IsDeleted = false,
+                            Name = "Pants"
+                        },
+                        new
+                        {
+                            Id = new Guid("409c122e-a2de-1259-9499-a1e496e65cdb"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4930),
+                            CreatedBy = "System",
+                            Description = "Casual and formal dresses for women and girls",
+                            IsDeleted = false,
+                            Name = "Dresses"
+                        },
+                        new
+                        {
+                            Id = new Guid("33208193-1413-ce51-ab9b-5b6b358db411"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4943),
+                            CreatedBy = "System",
+                            Description = "Hoodies and sweatshirts for all",
+                            IsDeleted = false,
+                            Name = "Hoodies"
+                        },
+                        new
+                        {
+                            Id = new Guid("d50cb5f3-c43c-af50-a780-81e2d995abc7"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4963),
+                            CreatedBy = "System",
+                            Description = "Bags, belts, hats, and other accessories",
+                            IsDeleted = false,
+                            Name = "Accessories"
+                        },
+                        new
+                        {
+                            Id = new Guid("483dcc60-ac7e-d453-b20c-677936b05937"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4976),
+                            CreatedBy = "System",
+                            Description = "Jackets, coats and outerwear",
+                            IsDeleted = false,
+                            Name = "Jackets"
+                        },
+                        new
+                        {
+                            Id = new Guid("f51d0637-cf0d-e952-bf9c-a8064d21239b"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(4988),
+                            CreatedBy = "System",
+                            Description = "Socks, underwear, lingerie",
+                            IsDeleted = false,
+                            Name = "Underwear"
+                        },
+                        new
+                        {
+                            Id = new Guid("7c1b2532-d955-2753-bb3d-fe0199ba2547"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(5000),
+                            CreatedBy = "System",
+                            Description = "Gym, running, and sports clothing",
+                            IsDeleted = false,
+                            Name = "Sportswear"
+                        },
+                        new
+                        {
+                            Id = new Guid("3ffbccf0-69d6-1a5a-8040-b0af290bde83"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 5, DateTimeKind.Utc).AddTicks(5011),
+                            CreatedBy = "System",
+                            Description = "Swimsuits, bikinis, and beachwear",
+                            IsDeleted = false,
+                            Name = "Swimwear"
+                        });
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Color", b =>
@@ -276,6 +368,32 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GenderCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("053bb5a9-44c3-eb5e-ae05-9f55fa44d7ef"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 6, DateTimeKind.Utc).AddTicks(1519),
+                            CreatedBy = "System",
+                            IsDeleted = false,
+                            Name = "Men"
+                        },
+                        new
+                        {
+                            Id = new Guid("70e7653a-8ab2-5056-964e-9f6d344162ce"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 6, DateTimeKind.Utc).AddTicks(1605),
+                            CreatedBy = "System",
+                            IsDeleted = false,
+                            Name = "Women"
+                        },
+                        new
+                        {
+                            Id = new Guid("0188105b-9870-c856-93c1-0139faf1bd0b"),
+                            CreatedAt = new DateTime(2025, 11, 21, 14, 11, 1, 6, DateTimeKind.Utc).AddTicks(1622),
+                            CreatedBy = "System",
+                            IsDeleted = false,
+                            Name = "Kids"
+                        });
                 });
 
             modelBuilder.Entity("EuphoriaCommerce.Domain.Entities.CatalogDomain.Size", b =>

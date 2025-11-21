@@ -113,6 +113,27 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GenderCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RestoredAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RestoredBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenderCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -195,6 +216,8 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                     UserProfile_Street = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     UserProfile_ZipCode = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     UserProfile_UserId = table.Column<int>(type: "int", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiration = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -237,13 +260,17 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubCategories",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubCategoryName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    SubCategoryDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalStock = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GenderCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETUTCDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -256,12 +283,25 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategoryId", x => x.Id);
+                    table.PrimaryKey("PK_ProductId", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubCategory_CategoryId",
+                        name: "FK_Product_Brand_Id",
+                        column: x => x.CategoryId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Category_Id",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Gender_Id",
+                        column: x => x.GenderCategoryId,
+                        principalTable: "GenderCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,51 +412,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    ProductDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    TotalStock = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETUTCDATE()"),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RestoredAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RestoredBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductId", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Product_Brand_Id",
-                        column: x => x.CategoryId,
-                        principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Product_Category_Id",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Product_SubCategory_Id",
-                        column: x => x.SubCategoryId,
-                        principalTable: "SubCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Badges",
                 columns: table => new
                 {
@@ -507,7 +502,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsMain = table.Column<bool>(type: "bit", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETUTCDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -713,14 +707,14 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_GenderCategoryId",
+                table: "Products",
+                column: "GenderCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductName",
                 table: "Products",
                 column: "ProductName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_SubCategoryId",
-                table: "Products",
-                column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductVariants_ColorId",
@@ -741,16 +735,6 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 name: "IX_Sizes_SizeName",
                 table: "Sizes",
                 column: "SizeName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubCategories_CategoryId",
-                table: "SubCategories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubCategories_SubCategoryName",
-                table: "SubCategories",
-                column: "SubCategoryName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tags_TagName",
@@ -855,10 +839,10 @@ namespace EuphoriaCommerce.Infrastructure.Migrations
                 name: "Brands");
 
             migrationBuilder.DropTable(
-                name: "SubCategories");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "GenderCategories");
         }
     }
 }

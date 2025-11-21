@@ -15,15 +15,10 @@ public class GenderCategory: Entity<Guid>
 
     private GenderCategory() {}
     
-    public GenderCategory(string name)
+    public GenderCategory(string name, string? createdBy = "System")
     {
+        Id = Guid.NewGuid();
         Name = name;
-    }
-
-    public static GenderCategory Create(string name, string? createdBy = "System")
-    {
-        var gender = new GenderCategory(name);
-        gender.MarkCreated(createdBy);
-        return gender;
+        MarkCreated(createdBy);
     }
 }
