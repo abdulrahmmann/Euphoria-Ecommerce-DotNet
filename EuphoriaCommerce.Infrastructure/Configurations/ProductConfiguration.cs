@@ -37,10 +37,10 @@ public class ProductConfiguration : BaseEntityConfiguration<Product>
             .HasConstraintName("FK_Product_Category_Id");
         
         builder
-            .HasOne(c => c.SubCategory)
+            .HasOne(c => c.GenderCategory)
             .WithMany(p => p.Products)
-            .HasForeignKey(c => c.SubCategoryId)
+            .HasForeignKey(c => c.GenderCategoryId)
             .OnDelete(DeleteBehavior.Restrict)
-            .HasConstraintName("FK_Product_SubCategory_Id");
+            .HasConstraintName("FK_Product_Gender_Id");
     }
 }

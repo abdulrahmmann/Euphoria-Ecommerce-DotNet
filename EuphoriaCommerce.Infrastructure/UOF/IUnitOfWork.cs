@@ -6,7 +6,6 @@ namespace EuphoriaCommerce.Infrastructure.UOF;
 public interface IUnitOfWork: IDisposable
 {
     ICategoryRepository GetCategoriesRepo { get; }
-    ISubCategoryRepository GetSubCategoriesRepo { get; }
     IBrandRepository GetBrandsRepo { get; }
     IProductBadgeRepository GetProductBadgesRepo { get; }
     IProductTagRepository GetTagsBadgesRepo { get; }

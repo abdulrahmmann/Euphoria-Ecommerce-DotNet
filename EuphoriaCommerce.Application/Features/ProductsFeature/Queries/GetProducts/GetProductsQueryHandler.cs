@@ -17,7 +17,7 @@ public class GetProductsQueryHandler(IUnitOfWork unitOfWork, ILogger logger)
             var productRepo = unitOfWork.GetProductRepo.GetProducts();
             
             var products = await productRepo.Select(x => new ProductDto(x.Id, x.Name, x.Description, x.Price, 
-                x.TotalStock, x.Category.Name, x.SubCategory.Name, x.Brand.Name)).ToListAsync(cancellationToken);
+                x.TotalStock, x.Category.Name, x.GenderCategory.Name, x.Brand.Name)).ToListAsync(cancellationToken);
 
             if (products.Count == 0)
             {

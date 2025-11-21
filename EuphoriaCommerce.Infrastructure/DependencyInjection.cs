@@ -48,7 +48,6 @@ public static class DependencyInjection
         
         // REGISTER REPOSITORIES   
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<IProductBadgeRepository, ProductBadgeRepository>();
         services.AddScoped<IProductTagRepository, ProductTagRepository>();

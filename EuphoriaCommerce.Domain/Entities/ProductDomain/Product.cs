@@ -27,10 +27,10 @@ public class Product : Entity<Guid>
     public Category Category { get; private set; } = null!;
 
     /// <summary>Sub-category Foreign key this product belongs to.</summary>
-    public Guid SubCategoryId { get; private set; }
+    public Guid GenderCategoryId { get; private set; }
 
-    /// <summary>Navigation to SubCategory.</summary>
-    public SubCategory SubCategory { get; private set; } = null!;
+    /// <summary>Navigation to GenderCategory.</summary>
+    public GenderCategory GenderCategory { get; private set; } = null!;
 
     /// <summary>Brand ID Foreign key this product belongs to.</summary>
     public Guid BrandId { get; private set; }
@@ -60,7 +60,7 @@ public class Product : Entity<Guid>
 
     #region Constructor | Create
     /// <summary>Create a new product and mark it as Created. </summary>
-    public Product(string name, string description, decimal price, int totalStock, Guid categoryId, Guid subCategoryId,
+    public Product(string name, string description, decimal price, int totalStock, Guid categoryId, Guid genderCategory,
         Guid brandId, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
@@ -80,7 +80,7 @@ public class Product : Entity<Guid>
         TotalStock = totalStock;
 
         CategoryId = categoryId;
-        SubCategoryId = subCategoryId;
+        GenderCategoryId = genderCategory;
         BrandId = brandId;
 
         MarkCreated(createdBy);
@@ -99,14 +99,14 @@ public class Product : Entity<Guid>
     }
     
     /// <summary>Update product basic information.</summary>
-    public void Update(string? name, string? description, decimal? price, int? totalStock, Guid? categoryId, Guid? subCategoryId, Guid? brandId, string? modifiedBy = "System")
+    public void Update(string? name, string? description, decimal? price, int? totalStock, Guid? categoryId, Guid? genderCategoryId, Guid? brandId, string? modifiedBy = "System")
     {
         Name = name ?? Name;
         Description = description ?? Description;
         Price = price ?? Price;
         TotalStock = totalStock ?? TotalStock;
         CategoryId = categoryId ?? CategoryId;
-        SubCategoryId = subCategoryId ?? SubCategoryId;
+        GenderCategoryId = genderCategoryId ?? GenderCategoryId;
         BrandId = brandId ?? BrandId;
 
         MarkModified(modifiedBy);
@@ -128,10 +128,10 @@ public class Product : Entity<Guid>
     }
 
     /// <summary>Update the product category or brand.</summary>
-    public void UpdateCategoryBrand( Guid categoryId, Guid subCategoryId, Guid brandId, string? modifiedBy = "System")
+    public void UpdateCategoryBrand( Guid categoryId, Guid genderCategoryId, Guid brandId, string? modifiedBy = "System")
     {
         CategoryId = categoryId;
-        SubCategoryId = subCategoryId;
+        GenderCategoryId = genderCategoryId;
         BrandId = brandId;
 
         MarkModified(modifiedBy);

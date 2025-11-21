@@ -12,7 +12,6 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
     {
         return dbContext.Products.AsNoTracking()
             .Include(c => c.Category)
-            .Include(sc => sc.SubCategory)
             .Include(br => br.Brand)
             .OrderBy(product => product.Name)
             .ThenBy(product => product.Price)
@@ -24,7 +23,6 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
         return dbContext.Products
             .AsNoTracking()
             .Include(c => c.Category)
-            .Include(sc => sc.SubCategory)
             .Include(br => br.Brand)
             .AsSplitQuery()
             .Where(predicate)
@@ -33,7 +31,7 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
     }
     public async Task AddProduct(Product product, CancellationToken cancellationToken, string? createdBy = "System")
     {
-        var productToAdd = Product.Create(product.Name,  product.Description, product.Price, product.TotalStock, product.CategoryId, product.SubCategoryId, product.BrandId, createdBy);
+        var productToAdd = Product.Create(product.Name,  product.Description, product.Price, product.TotalStock, product.CategoryId, product.GenderCategoryId, product.BrandId, createdBy);
         
         await dbContext.Products.AddAsync(productToAdd, cancellationToken);
     }
@@ -42,7 +40,7 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
     {
         var productToUpdate = await dbContext.Products.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
 
-        productToUpdate?.Update(product.Name, product.Description, product.Price, product.TotalStock, product.CategoryId, product.SubCategoryId, product.BrandId, modifiedBy);
+        productToUpdate?.Update(product.Name, product.Description, product.Price, product.TotalStock, product.CategoryId, product.GenderCategoryId, product.BrandId, modifiedBy);
     }
 
     public async Task DeleteProduct(Guid id, CancellationToken cancellationToken, string? deletedBy = null)

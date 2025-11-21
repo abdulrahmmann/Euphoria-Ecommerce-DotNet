@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace EuphoriaCommerce.Infrastructure.UOF;
 
 public class UnitOfWork(ApplicationDbContext dbContext, 
-    ICategoryRepository getCategoriesRepo, ISubCategoryRepository getSubCategoriesRepo, 
-    IBrandRepository getBrandsRepo, IProductBadgeRepository getProductBadgesRepo, 
-    IProductTagRepository getTagsBadgesRepo, IProductImageRepository getProductImagesRepo, 
-    IProductVariantRepository getProductVariantsRepo, IProductRepository getProductRepo
+    ICategoryRepository getCategoriesRepo, IBrandRepository getBrandsRepo, 
+    IProductBadgeRepository getProductBadgesRepo, IProductTagRepository getTagsBadgesRepo, 
+    IProductImageRepository getProductImagesRepo, IProductVariantRepository getProductVariantsRepo, 
+    IProductRepository getProductRepo
     ): IUnitOfWork
 {
     public ICategoryRepository GetCategoriesRepo { get; } = getCategoriesRepo;
-    public ISubCategoryRepository GetSubCategoriesRepo { get; } = getSubCategoriesRepo;
     public IBrandRepository GetBrandsRepo { get; } = getBrandsRepo;
     public IProductBadgeRepository GetProductBadgesRepo { get; } = getProductBadgesRepo;
     public IProductTagRepository GetTagsBadgesRepo { get; } = getTagsBadgesRepo;

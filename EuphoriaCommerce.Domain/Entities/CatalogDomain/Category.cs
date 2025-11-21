@@ -5,7 +5,7 @@ namespace EuphoriaCommerce.Domain.Entities.CatalogDomain;
 
 /// <summary>
 /// Represents a product category.
-/// <example>Men, Women, Kids</example>
+/// <example>Shoes, Tops, Dresses, Pants, Shirts, Plain, Hoodies, Kurti, Accessories, Boxers.</example>
 /// </summary>
 public class Category : Entity<Guid>
 {
@@ -19,7 +19,6 @@ public class Category : Entity<Guid>
     public ICollection<Product> Products { get; private set; } = new List<Product>();
 
     /// <summary>Navigation property to subcategories under this category.</summary>
-    public ICollection<SubCategory> SubCategories { get; private set; } = new List<SubCategory>();
 
     private Category() { }
 

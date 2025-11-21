@@ -26,7 +26,7 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
     public DbSet<Color> Colors { get; set; }
     public DbSet<Size> Sizes { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<SubCategory> SubCategories { get; set; }
+    public DbSet<GenderCategory> GenderCategories { get; set; }
     
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
@@ -63,7 +63,7 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
         builder.Entity<Color>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<Size>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<Category>().HasQueryFilter(u => !u.IsDeleted);
-        builder.Entity<SubCategory>().HasQueryFilter(u => !u.IsDeleted);
+        builder.Entity<GenderCategory>().HasQueryFilter(u => !u.IsDeleted);
             
         builder.Entity<Wishlist>().HasQueryFilter(u => !u.IsDeleted);
         builder.Entity<Feedback>().HasQueryFilter(u => !u.IsDeleted);
