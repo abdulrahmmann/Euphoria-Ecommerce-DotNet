@@ -37,4 +37,64 @@ public static class ModelBuilderExtensions
             }).ToArray()
         );
     }
+    
+    public static void SeedColors(this ModelBuilder builder)
+    {
+        var colors = new[]
+        {
+            new { Name = "Red", Hex = "#FF0000" },
+            new { Name = "Blue", Hex = "#0000FF" },
+            new { Name = "Green", Hex = "#00FF00" },
+            new { Name = "Black", Hex = "#000000" },
+            new { Name = "White", Hex = "#FFFFFF" },
+            new { Name = "Yellow", Hex = "#FFFF00" },
+            new { Name = "Pink", Hex = "#FFC0CB" },
+            new { Name = "Purple", Hex = "#800080" },
+            new { Name = "Orange", Hex = "#FFA500" },
+            new { Name = "Brown", Hex = "#A52A2A" }
+        };
+
+        builder.Entity<Color>().HasData(
+            colors.Select(c => new Color(c.Name, c.Hex)
+            {
+                Id = GuidHelper.CreateGuidFromName(c.Name)
+            }).ToArray()
+        );
+    }
+    
+    public static void SeedSizes(this ModelBuilder builder)
+    {
+        var sizes = new[]
+        {
+            new { Name = "XXS", SizeType = "Clothing" },
+            new { Name = "XS", SizeType = "Clothing" },
+            new { Name = "S",  SizeType = "Clothing" },
+            new { Name = "M",  SizeType = "Clothing" },
+            new { Name = "L",  SizeType = "Clothing" },
+            new { Name = "XL", SizeType = "Clothing" },
+            new { Name = "XXL", SizeType = "Clothing" },
+            new { Name = "3XL", SizeType = "Clothing" },
+            new { Name = "4XL", SizeType = "Clothing" },
+            new { Name = "5XL", SizeType = "Clothing" },
+            new { Name = "38", SizeType = "Shoes" },
+            new { Name = "39", SizeType = "Shoes" },
+            new { Name = "40", SizeType = "Shoes" },
+            new { Name = "41", SizeType = "Shoes" },
+            new { Name = "42", SizeType = "Shoes" },
+            new { Name = "43", SizeType = "Shoes" },
+            new { Name = "44", SizeType = "Shoes" },
+            new { Name = "45", SizeType = "Shoes" },
+            new { Name = "46", SizeType = "Shoes" },
+            new { Name = "47", SizeType = "Shoes" },
+        };
+
+        builder.Entity<Size>().HasData(
+            sizes.Select(s => new Size(s.Name, s.SizeType)
+            {
+                Id = GuidHelper.CreateGuidFromName(s.Name)
+            }).ToArray()
+        );
+    }
+    
+    
 }

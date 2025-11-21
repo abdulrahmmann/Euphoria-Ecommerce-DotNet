@@ -29,7 +29,7 @@ public class Size: Entity<Guid>
     /// <param name="name">The Size Name.</param>
     /// <param name="sizeType">The Size Type.</param>
     /// <param name="createdBy">Admin Who create the Size.</param>
-    private Size(string name, string sizeType, string? createdBy = "System")
+    public Size(string name, string sizeType, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(sizeType);

@@ -39,9 +39,11 @@ public class ApplicationDbContext: IdentityDbContext<ApplicationUser, IdentityRo
         base.OnModelCreating(builder);
         
         // ========================= 
-        // Seed { Categories, Genders } Data.
+        // Seed { Categories, Genders, Colors } Data.
         // =========================
-        // builder.SeedCategories();
+        builder.SeedCategories();
+        builder.SeedColors();
+        builder.SeedSizes();
 
         builder.Entity<Cart>().OwnsMany(c => c.CartItems, ct =>
         {
