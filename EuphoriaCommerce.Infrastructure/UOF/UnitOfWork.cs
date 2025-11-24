@@ -8,7 +8,8 @@ public class UnitOfWork(ApplicationDbContext dbContext,
     ICategoryRepository getCategoriesRepo, IBrandRepository getBrandsRepo, 
     IProductBadgeRepository getProductBadgesRepo, IProductTagRepository getTagsBadgesRepo, 
     IProductImageRepository getProductImagesRepo, IProductVariantRepository getProductVariantsRepo, 
-    IProductRepository getProductRepo
+    IProductRepository getProductRepo,
+    ITagRepository getTagsRepo, IBadgeRepository getBadgesRepo
     ): IUnitOfWork
 {
     public ICategoryRepository GetCategoriesRepo { get; } = getCategoriesRepo;
@@ -18,7 +19,9 @@ public class UnitOfWork(ApplicationDbContext dbContext,
     public IProductImageRepository GetProductImagesRepo { get; } = getProductImagesRepo;
     public IProductVariantRepository GetProductVariantsRepo { get; } = getProductVariantsRepo;
     public IProductRepository GetProductRepo { get; } = getProductRepo;
-    
+    public ITagRepository GetTagsRepo { get; } = getTagsRepo;
+    public IBadgeRepository GetBadgesRepo { get; } = getBadgesRepo;
+
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
     {
          return await dbContext.Database.BeginTransactionAsync(cancellationToken);

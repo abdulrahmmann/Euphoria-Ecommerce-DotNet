@@ -23,6 +23,8 @@ public class ApplicationUser: IdentityUser
     /// </list>
     /// </summary>
     public string Role { get; set; } = string.Empty;
+    
+    public DateTime JoinedDate { get; init; } = DateTime.Now;
 
     public void SetRole(string role)
     {
@@ -58,6 +60,11 @@ public class ApplicationUser: IdentityUser
     public void SetRefreshTokenExpiration(DateTime? refreshTokenExpiration)
     {
         RefreshTokenExpiration = refreshTokenExpiration;
+    }
+    
+    public void UpdateUserProfile(UserProfile newProfile)
+    {
+        UserProfile = newProfile;
     }
     
 }

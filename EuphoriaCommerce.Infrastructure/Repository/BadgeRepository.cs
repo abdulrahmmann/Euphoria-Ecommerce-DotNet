@@ -10,7 +10,7 @@ public class BadgeRepository(ApplicationDbContext dbContext): IBadgeRepository
 {
     public async Task<List<ProductBadge>> GetBadges(CancellationToken cancellationToken)
     {
-        return await dbContext.ProductBadges.ToListAsync(cancellationToken);
+        return await dbContext.ProductBadges.AsNoTracking().Include(p => p.Product).ToListAsync(cancellationToken);
     }
 
     public async Task AddBadge(ProductBadge tag, CancellationToken cancellationToken)
@@ -24,7 +24,8 @@ public class BadgeRepository(ApplicationDbContext dbContext): IBadgeRepository
 
     public async Task<ProductBadge?> GetBadgeById(Guid id, CancellationToken cancellationToken)
     {
-        return await dbContext.ProductBadges.SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
+        return await dbContext.ProductBadges.AsNoTracking().Include(p => p.Product)
+            .SingleOrDefaultAsync(temp => temp.Id == id, cancellationToken);
     }
 
     public async Task<bool> ExistsAsync(Expression<Func<ProductBadge, bool>> predicate, CancellationToken cancellationToken = default)

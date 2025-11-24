@@ -42,7 +42,7 @@ public class UserProfile
     public string ZipCode { get; private set; } = null!;
 
     /// <summary> The foreign key referencing the associated application user. </summary>
-    public int UserId { get; private set; }
+    public string UserId { get; private set; }
 
     /// <summary> Navigation property for the related <see cref="ApplicationUser"/>. </summary>
     public ApplicationUser ApplicationUser { get; private set; } = null!;
@@ -50,7 +50,7 @@ public class UserProfile
     private UserProfile() { }
 
     public UserProfile(string firstName, string? secondName, string lastName, string? profileImageUrl, 
-        string bio, string gender, string country, string city, string street, string zipCode, int userId)
+        string bio, string gender, string country, string city, string street, string zipCode, string userId)
     {
         ArgumentException.ThrowIfNullOrEmpty(firstName);
         ArgumentException.ThrowIfNullOrEmpty(secondName);
@@ -62,8 +62,6 @@ public class UserProfile
         ArgumentException.ThrowIfNullOrEmpty(city);
         ArgumentException.ThrowIfNullOrEmpty(street);
         ArgumentException.ThrowIfNullOrEmpty(zipCode);
-        
-        if (userId <= 0) throw new ArgumentOutOfRangeException(nameof(userId));
         
         FirstName = firstName;
         SecondName = secondName;

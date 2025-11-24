@@ -28,9 +28,10 @@
 
     <ItemGroup>
       <Folder Include="Caching\" />
+      <Folder Include="Features\BadgesFeature\Commands\CreateBadge\" />
+      <Folder Include="Features\BadgesFeature\Queries\GetBadges\" />
       <Folder Include="Features\TagsFeature\Commands\CreateTag\" />
       <Folder Include="Features\TagsFeature\Queries\GetTags\" />
-      <Folder Include="Features\UsersFeature\Queries\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -12,6 +12,8 @@ public interface IUnitOfWork: IDisposable
     IProductImageRepository GetProductImagesRepo { get; }
     IProductVariantRepository GetProductVariantsRepo { get; }
     IProductRepository GetProductRepo { get; }
+    ITagRepository GetTagsRepo { get; }
+    IBadgeRepository GetBadgesRepo { get; }
     
     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
     
