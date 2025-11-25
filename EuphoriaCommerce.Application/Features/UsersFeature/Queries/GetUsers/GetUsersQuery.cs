@@ -4,4 +4,4 @@ using EuphoriaCommerce.Domain.CQRS;
 
 namespace EuphoriaCommerce.Application.Features.UsersFeature.Queries.GetUsers;
 
-public record GetUsersQuery(): IQuery<UserResponse<IEnumerable<UserDto2>>>;
+public record GetUsersQuery(): IQuery<UserResponse<List<UserDto2>>>;

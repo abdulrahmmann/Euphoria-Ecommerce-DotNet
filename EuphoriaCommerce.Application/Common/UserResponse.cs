@@ -22,6 +22,8 @@ public class UserResponse<T>
 
     [JsonPropertyOrder(99)]
     public T? Data { get; set; }
+    
+    public UserResponse() {}
 
     public UserResponse(int? totalCount, HttpStatusCode httpStatusCode, string message, T? data)
     {
@@ -56,7 +58,7 @@ public class UserResponse<T>
         return new UserResponse<T>(HttpStatusCode.Created, email, message);
     }
     
-    public static UserResponse<T> Failure(string message, HttpStatusCode httpStatusCode)
+    public static UserResponse<T> Failure(string message, HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError)
     {
         return new UserResponse<T>(message, httpStatusCode);
     }

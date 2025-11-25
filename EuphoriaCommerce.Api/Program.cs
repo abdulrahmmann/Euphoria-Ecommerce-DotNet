@@ -2,20 +2,16 @@ using System.Security.Claims;
 using System.Text;
 using Asp.Versioning;
 using Euphoria_ecommerce.Middlewares;
-using Euphoria_ecommerce.SeedData;
 using EuphoriaCommerce.Application;
 using EuphoriaCommerce.Application.Extensions;
 using EuphoriaCommerce.Application.Features.UsersFeature.Models;
 using EuphoriaCommerce.Domain;
 using EuphoriaCommerce.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,7 +91,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 
-    options.InstanceName = "HappyWarehouses_";
+    options.InstanceName = "EuphoriaEcommerce_";
 });
 
 // CORS
@@ -110,29 +106,19 @@ builder.Services.AddCors(options =>
     });
 });
 
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//
-//     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-//     await DbSeedData.SeedAdminsAsync(services);
-//     await DbSeedData.SeedRolesAsync(roleManager);
-// }
 
 
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
 {
-    // app.UseSwagger();
-    // app.UseSwaggerUI();
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    // app.MapOpenApi();
+    // app.MapScalarApiReference();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseExceptionHandlingMiddleware();

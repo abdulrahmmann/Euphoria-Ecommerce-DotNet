@@ -49,8 +49,8 @@ public class UserProfile
 
     private UserProfile() { }
 
-    public UserProfile(string firstName, string? secondName, string lastName, string? profileImageUrl, 
-        string bio, string gender, string country, string city, string street, string zipCode, string userId)
+    public UserProfile(string? firstName, string? secondName, string? lastName, string? profileImageUrl, 
+        string? bio, string? gender, string? country, string? city, string? street, string? zipCode, string userId)
     {
         ArgumentException.ThrowIfNullOrEmpty(firstName);
         ArgumentException.ThrowIfNullOrEmpty(secondName);

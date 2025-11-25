@@ -15,7 +15,7 @@ public class GetUserRolesByEmailQueryHandler(UserManager<ApplicationUser> userMa
             if (string.IsNullOrWhiteSpace(query.Email)) throw new ArgumentNullException(nameof(query.Email));
 
             var user = await userManager.FindByEmailAsync(query.Email);
-
+            
             if (user == null)
             {
                 logger.Warning("No user found with email: {Email}", query.Email);

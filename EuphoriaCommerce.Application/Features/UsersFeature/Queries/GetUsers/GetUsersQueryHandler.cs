@@ -9,30 +9,29 @@ using Serilog;
 namespace EuphoriaCommerce.Application.Features.UsersFeature.Queries.GetUsers;
 
 public class GetUsersQueryHandler(UserManager<ApplicationUser> userManager, ILogger logger)
-    : IQueryHandler<GetUsersQuery, UserResponse<IEnumerable<UserDto2>>>
+    : IQueryHandler<GetUsersQuery, UserResponse<List<UserDto2>>>
 {
-    public async Task<UserResponse<IEnumerable<UserDto2>>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
+    public async Task<UserResponse<List<UserDto2>>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken = default)
     {
         try
         {
             var users = userManager.Users.ToList(); 
-
+            
             if (users.Count == 0)
             {
                 logger.Error("Users are empty");
-                return UserResponse<IEnumerable<UserDto2>>.Failure("Users are empty", HttpStatusCode.NoContent);
+                return UserResponse<List<UserDto2>>.Failure("Users are empty", HttpStatusCode.NoContent);
             }
             
             var userList = new List<UserDto2>();
 
             foreach (var user in users)
             {
-                var roles = await userManager.GetRolesAsync(user);
-                var roleName = roles.FirstOrDefault() ?? "User";
-                
+                var role = await userManager.GetRolesAsync(user);
+                var roleName = role.FirstOrDefault() ?? "User";
                 userList.Add(new UserDto2(
                     user.Id,
-                    user.UserProfile?.FullName,
+                    user.UserName,
                     user.Email,
                     user.PhoneNumber,
                     roleName,
@@ -42,7 +41,7 @@ public class GetUsersQueryHandler(UserManager<ApplicationUser> userManager, ILog
                 ));
             }
 
-            return UserResponse<IEnumerable<UserDto2>>
+            return UserResponse<List<UserDto2>>
                 .Success(
                     totalCount: userList.Count,
                     httpStatusCode: HttpStatusCode.OK,
@@ -53,8 +52,8 @@ public class GetUsersQueryHandler(UserManager<ApplicationUser> userManager, ILog
         catch (Exception e)
         {
             logger.Error(e, "Unexpected error while retrieving users");
-            return UserResponse<IEnumerable<UserDto2>>
-                .Failure("Unexpected server error. Please try again later.", HttpStatusCode.InternalServerError);
+            return UserResponse<List<UserDto2>>
+                .Failure("Unexpected server error. Please try again later.");
         }
     }
 }
