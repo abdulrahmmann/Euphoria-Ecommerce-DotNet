@@ -2,9 +2,9 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 
-namespace EuphoriaCommerce.Application.Helpers;
+namespace EuphoriaCommerce.Application.Cloudinary;
 
-public class CloudinaryService(Cloudinary cloudinary)
+public class CloudinaryService(CloudinaryDotNet.Cloudinary cloudinary)
 {
     public async Task<string?> UploadProfileImageAsync(IFormFile? file)
     {

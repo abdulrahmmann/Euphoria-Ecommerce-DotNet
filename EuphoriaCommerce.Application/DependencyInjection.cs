@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using EuphoriaCommerce.Application.Caching;
+using EuphoriaCommerce.Application.Cloudinary;
 using EuphoriaCommerce.Application.Common;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.CreateProduct;
 using EuphoriaCommerce.Application.Features.ProductsFeature.Commands.DeleteProduct;
@@ -21,7 +22,6 @@ using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateP
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateRefreshToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.Validations;
-using EuphoriaCommerce.Application.Helpers;
 using EuphoriaCommerce.Domain.CQRS;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
@@ -56,7 +56,7 @@ public static class DependencyInjection
         {
             var config = sp.GetRequiredService<IOptions<CloudinarySettings>>().Value;
             var account = new Account(config.CloudName, config.ApiKey, config.ApiSecret);
-            return new Cloudinary(account);
+            return new CloudinaryDotNet.Cloudinary(account);
         });
 
         

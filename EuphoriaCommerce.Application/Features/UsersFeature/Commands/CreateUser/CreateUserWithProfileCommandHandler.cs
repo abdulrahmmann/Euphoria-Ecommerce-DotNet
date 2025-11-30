@@ -1,8 +1,8 @@
 ﻿using System.Net;
+using EuphoriaCommerce.Application.Cloudinary;
 using EuphoriaCommerce.Application.Common;
 using EuphoriaCommerce.Application.Features.UsersFeature.DTOs;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
-using EuphoriaCommerce.Application.Helpers;
 using EuphoriaCommerce.Domain.CQRS;
 using EuphoriaCommerce.Domain.IdentityEntities;
 using FluentValidation;
@@ -100,24 +100,4 @@ public class CreateUserWithProfileCommandHandler(
             return AuthenticationResponse.Failure($"Unexpected server error. Please try again later: {e.Message}");
         }
     }
-
-    // private async Task<string?> UploadProfileImageAsync(IFormFile? file)
-    // {
-    //     if (file == null || file.Length == 0)
-    //         return null;
-    //
-    //     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
-    //     if (!Directory.Exists(uploadsFolder))
-    //         Directory.CreateDirectory(uploadsFolder);
-    //
-    //     var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-    //     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-    //
-    //     using (var fileStream = new FileStream(filePath, FileMode.Create))
-    //     {
-    //         await file.CopyToAsync(fileStream);
-    //     }
-    //
-    //     return $"/profile-images/{uniqueFileName}";
-    // }
 }
