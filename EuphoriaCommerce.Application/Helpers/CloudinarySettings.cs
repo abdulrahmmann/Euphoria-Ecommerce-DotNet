@@ -1,4 +1,4 @@
-﻿namespace EuphoriaCommerce.Application.Features.UsersFeature.Helpers;
+﻿namespace EuphoriaCommerce.Application.Helpers;
 
 public class CloudinarySettings
 {

@@ -7,8 +7,7 @@ public static class ModelBuilderExtensions
 {
     public static void SeedCategories(this ModelBuilder builder)
     {
-        var categories = new[]
-        {
+        var categories = new[] {
             new { Name = "Shirts", Description = "All types of shirts for men, women and kids" },
             new { Name = "Shoes", Description = "All types of shoes including sneakers, formal and casual" },
             new { Name = "Pants", Description = "Jeans, trousers, leggings, and other pants" },
@@ -21,13 +20,16 @@ public static class ModelBuilderExtensions
             new { Name = "Swimwear", Description = "Swimsuits, bikinis, and beachwear" }
         };
         
-        builder.Entity<Category>().HasData(
-            categories.Select(c => new Category(c.Name, c.Description)
-            {
-                Id = GuidHelper.CreateGuidFromName(c.Name)
-            }).ToArray()
-        );
+        // builder.Entity<Category>().HasData(
+        //     categories.Select(c => new Category(c.Name, c.Description)
+        //     {
+        //         Id = GuidHelper.CreateGuidFromName(c.Name)
+        //     }).ToArray()
+        // );
+    }
 
+    public static void SeedGendersCategory(this ModelBuilder builder)
+    {
         string[] genders = new[] { "Men", "Women", "Kids" };
 
         builder.Entity<GenderCategory>().HasData(

@@ -17,7 +17,22 @@ public class ProductRepository(ApplicationDbContext dbContext): IProductReposito
             .ThenBy(product => product.Price)
             .AsSplitQuery();
     }
-    
+
+    public IQueryable<Product?> GetProductsWithVariants()
+    {
+        return dbContext.Products.AsNoTracking()
+            .Include(c => c.Category)
+            .Include(g => g.GenderCategory)
+            .Include(b => b.Brand)
+            .Include(v => v.Variants)
+            .ThenInclude(clr => clr.Color)
+            .Include(v => v.Variants)
+            .ThenInclude(s => s.Size)
+            .OrderBy(product => product.Name)
+            .ThenBy(product => product.Price)
+            .AsSplitQuery();
+    }
+
     public IQueryable<Product?> FilterProductsByCondition(Expression<Func<Product, bool>>  predicate)
     {
         return dbContext.Products

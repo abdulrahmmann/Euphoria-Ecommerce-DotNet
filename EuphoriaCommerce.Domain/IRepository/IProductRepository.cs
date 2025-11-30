@@ -8,6 +8,7 @@ public interface IProductRepository
     /// <summary>Get All Products with their relation properties.</summary>
     /// <returns>All Products with fully details.</returns>
     public IQueryable<Product?> GetProducts();
+    public IQueryable<Product?> GetProductsWithVariants();
     
     /// <summary>Get All Products with their relation properties by a specific condition.</summary>
     /// <param name="predicate">The Condition.</param>

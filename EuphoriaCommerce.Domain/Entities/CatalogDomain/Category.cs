@@ -14,6 +14,8 @@ public class Category : Entity<Guid>
 
     /// <summary>The category description.</summary>
     public string Description { get; private set; } = null!;
+    
+    public string Image { get; private set; } = null!;
 
     /// <summary>Navigation property to products in this category.</summary>
     public ICollection<Product> Products { get; private set; } = new List<Product>();
@@ -23,39 +25,43 @@ public class Category : Entity<Guid>
     private Category() { }
 
     #region Constructor | Create
+
     /// <summary>Constructor | Create a Category and mark as Created.</summary>
     /// <param name="name">Category name.</param>
     /// <param name="description">Category description.</param>
+    /// <param name="image">Category Image.</param>
     /// <param name="createdBy">Admin who created the category.</param>
-    public Category(string name, string description, string? createdBy = "System")
+    public Category(string name, string description, string image, string? createdBy = "System")
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
+        ArgumentException.ThrowIfNullOrEmpty(image);
 
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
-
+        Image = image;
+        
         MarkCreated(createdBy);
     }
     #endregion
 
     #region Helper Methods : Update, Delete, Restore
+
     /// <summary>Update a Category and mark as Modified.</summary>
     /// <param name="name">Category name.</param>
     /// <param name="description">Category description.</param>
+    /// <param name="image">Category Image.</param>
     /// <param name="modifiedBy">Admin who modified the category.</param>
-    public void Update(string name, string description, string? modifiedBy = "System")
+    public void Update(string? name, string? description, string? image, string? modifiedBy = "System")
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentException.ThrowIfNullOrEmpty(description);
-
-        Name = name;
-        Description = description;
+        Name = name ?? Name;
+        Description = description ?? Description;
+        Image = image ?? Image;
 
         MarkModified(modifiedBy);
     }
-
+    
     /// <summary>Softly delete a Category and mark as Deleted.</summary>
     /// <param name="deletedBy">Admin who deleted the category.</param>
     public void Delete(string? deletedBy = "System")

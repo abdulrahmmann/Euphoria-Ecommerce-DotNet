@@ -1,12 +1,11 @@
 ﻿using System.Net;
 using EuphoriaCommerce.Application.Common;
 using EuphoriaCommerce.Application.Features.UsersFeature.DTOs;
-using EuphoriaCommerce.Application.Features.UsersFeature.Helpers;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
+using EuphoriaCommerce.Application.Helpers;
 using EuphoriaCommerce.Domain.CQRS;
 using EuphoriaCommerce.Domain.IdentityEntities;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 

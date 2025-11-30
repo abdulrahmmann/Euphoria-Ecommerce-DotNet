@@ -14,7 +14,6 @@ using EuphoriaCommerce.Application.Features.UsersFeature.Commands.GenerateNewAcc
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Login;
 using EuphoriaCommerce.Application.Features.UsersFeature.Commands.Register;
 using EuphoriaCommerce.Application.Features.UsersFeature.DTOs;
-using EuphoriaCommerce.Application.Features.UsersFeature.Helpers;
 using EuphoriaCommerce.Application.Features.UsersFeature.Queries.GetUserRole;
 using EuphoriaCommerce.Application.Features.UsersFeature.Queries.GetUsers;
 using EuphoriaCommerce.Application.Features.UsersFeature.Queries.GetUsersByRole;
@@ -22,6 +21,7 @@ using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateP
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateRefreshToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.TokenServices.GenerateToken;
 using EuphoriaCommerce.Application.Features.UsersFeature.Validations;
+using EuphoriaCommerce.Application.Helpers;
 using EuphoriaCommerce.Domain.CQRS;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;

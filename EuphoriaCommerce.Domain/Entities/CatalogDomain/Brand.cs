@@ -42,13 +42,10 @@ public class Brand: Entity<Guid>
     /// <param name="name"> Brand Name. </param>
     /// <param name="logoUrl"> Brand Logo. </param>
     /// <param name="modifiedBy">Admin Who modify the brand.</param>
-    public void Update(string name, string logoUrl, string? modifiedBy = "System")
+    public void Update(string? name, string? logoUrl, string? modifiedBy = "System")
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-        ArgumentException.ThrowIfNullOrEmpty(logoUrl);
-
-        Name = name;
-        LogoUrl = logoUrl;
+        Name = name ?? Name;
+        LogoUrl = logoUrl ?? LogoUrl; 
 
         MarkModified(modifiedBy);
     }
